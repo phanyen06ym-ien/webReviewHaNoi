@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Quản lý kế hoạch khám phá quán ăn và quán cà phê tại Hà Nội.">
+    <title>Kế hoạch khám phá quán | Hanoi Food Review</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/tasks.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-page="tasks">
+    <a class="skip-link" href="#main-content">Chuyển đến nội dung chính</a>
+
+    <header class="mobile-header">
+        <button class="icon-button menu-button" id="menu-button" type="button"
+            aria-label="Mở menu" aria-controls="left-sidebar" aria-expanded="false">
+            <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
+        <a class="mobile-brand" href="../index.html" aria-label="Hanoi Food Review - Trang chủ">
+            <span class="brand-mark"><i class="fa-solid fa-bowl-food" aria-hidden="true"></i></span>
+            <span>Hanoi Food Review</span>
+        </a>
+        <a class="mobile-account" href="profile.html" aria-label="Mở hồ sơ">
+            <i class="fa-regular fa-circle-user" aria-hidden="true"></i>
+        </a>
+    </header>
+
+    <div class="menu-overlay" id="menu-overlay" hidden></div>
+
+    <div class="page-layout tasks-layout">
+        <aside class="left-sidebar" id="left-sidebar" aria-label="Điều hướng chính">
+            <div class="sidebar-inner">
+                <a class="brand" href="../index.html">
+                    <span class="brand-mark"><i class="fa-solid fa-bowl-food" aria-hidden="true"></i></span>
+                    <span class="brand-text"><strong>Hanoi Food</strong><small>Review</small></span>
+                </a>
+
+                <nav class="main-navigation">
+                    <a class="nav-link" href="../index.html"><i class="fa-solid fa-house" aria-hidden="true"></i><span>Trang chủ</span></a>
+                    <a class="nav-link" href="explore.html"><i class="fa-solid fa-compass" aria-hidden="true"></i><span>Khám phá</span></a>
+                    <a class="nav-link active" href="tasks.html" aria-current="page"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i><span>Kế hoạch đi quán</span></a>
+                    <a class="nav-link" href="my-posts.html"><i class="fa-regular fa-pen-to-square" aria-hidden="true"></i><span>Bài viết của tôi</span></a>
+                    <a class="nav-link" href="saved.html"><i class="fa-regular fa-bookmark" aria-hidden="true"></i><span>Đã lưu</span></a>
+                    <a class="nav-link" href="statistics.html"><i class="fa-solid fa-chart-column" aria-hidden="true"></i><span>Thống kê</span></a>
+                    <a class="nav-link" href="profile.html"><i class="fa-regular fa-user" aria-hidden="true"></i><span>Hồ sơ</span></a>
+                </nav>
+
+                <div class="sidebar-account">
+                    <div class="account-summary">
+                        <span class="avatar avatar-small" id="sidebar-user-avatar" aria-hidden="true">K</span>
+                        <span>
+                            <strong id="sidebar-user-name">Khách ghé thăm</strong>
+                            <small id="sidebar-user-status">Chưa đăng nhập</small>
+                        </span>
+                    </div>
+                    <a class="button button-outline button-full" href="login.html">
+                        <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i> Đăng nhập
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content tasks-main tasks-page" id="main-content">
+            <header class="tasks-header">
+                <div>
+                    <span class="eyebrow">Lịch trình của bạn</span>
+                    <h1>Kế hoạch khám phá quán</h1>
+                    <p>Quản lý những địa điểm bạn muốn trải nghiệm tại Hà Nội.</p>
+                </div>
+                <div class="tasks-header-actions">
+                    <button class="button button-primary" id="add-task-button" type="button">
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i> Thêm kế hoạch
+                    </button>
+                </div>
+            </header>
+
+            <section class="task-statistics" aria-label="Thống kê kế hoạch">
+                <article class="task-stat-card">
+                    <i class="fa-solid fa-list-check" aria-hidden="true"></i>
+                    <span><strong id="total-task-count">0</strong><small>Tổng kế hoạch</small></span>
+                </article>
+                <article class="task-stat-card">
+                    <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                    <span><strong id="pending-task-count">0</strong><small>Đang chờ</small></span>
+                </article>
+                <article class="task-stat-card">
+                    <i class="fa-regular fa-circle-check" aria-hidden="true"></i>
+                    <span><strong id="done-task-count">0</strong><small>Hoàn thành</small></span>
+                </article>
+                <article class="task-stat-card">
+                    <i class="fa-solid fa-fire" aria-hidden="true"></i>
+                    <span><strong id="high-task-count">0</strong><small>Ưu tiên cao</small></span>
+                </article>
+            </section>
+
+            <section class="task-toolbar card" aria-label="Tìm kiếm và lọc kế hoạch">
+                <div class="task-search-box">
+                    <label class="visually-hidden" for="task-search">Tìm kiếm kế hoạch</label>
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    <input id="task-search" type="search" placeholder="Tìm theo tiêu đề hoặc mô tả...">
+                </div>
+                <div class="task-filters">
+                    <label>
+                        <span>Trạng thái</span>
+                        <select id="filter-status">
+                            <option value="">Tất cả</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Done">Done</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span>Ưu tiên</span>
+                        <select id="filter-priority">
+                            <option value="">Tất cả</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span>Loại quán</span>
+                        <select id="filter-category">
+                            <option value="">Tất cả</option>
+                            <option value="Cafe">Cafe</option>
+                            <option value="Food">Food</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span>Quận</span>
+                        <select id="filter-district">
+                            <option value="">Tất cả quận</option>
+                            <option>Ba Đình</option><option>Cầu Giấy</option><option>Đống Đa</option>
+                            <option>Hà Đông</option><option>Hai Bà Trưng</option><option>Hoàn Kiếm</option>
+                            <option>Hoàng Mai</option><option>Long Biên</option><option>Nam Từ Liêm</option>
+                            <option>Bắc Từ Liêm</option><option>Tây Hồ</option><option>Thanh Xuân</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span>Sắp xếp</span>
+                        <select id="sort-deadline">
+                            <option value="deadline-asc">Deadline gần nhất</option>
+                            <option value="deadline-desc">Deadline xa nhất</option>
+                            <option value="newest">Mới tạo</option>
+                            <option value="oldest">Cũ nhất</option>
+                        </select>
+                    </label>
+                    <button class="button button-outline reset-filter-button" id="reset-task-filters" type="button">
+                        <i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Đặt lại
+                    </button>
+                </div>
+            </section>
+
+            <div class="task-list-heading">
+                <h2>Danh sách kế hoạch</h2>
+                <span id="task-result-count">Hiển thị 0/0 kế hoạch</span>
+            </div>
+            <section id="task-list" class="task-list" aria-live="polite"></section>
+
+            <section class="danger-zone card">
+                <div>
+                    <h2>Quản lý dữ liệu</h2>
+                    <p>Xóa toàn bộ kế hoạch hoặc chuẩn bị sao lưu dữ liệu.</p>
+                </div>
+                <div class="data-actions">
+                    <button class="button button-danger" id="clear-all-tasks" type="button">
+                        <i class="fa-regular fa-trash-can" aria-hidden="true"></i> Xóa tất cả
+                    </button>
+                    <button class="button button-outline future-feature" type="button" data-feature="Export JSON">
+                        <i class="fa-solid fa-file-export" aria-hidden="true"></i> Export JSON
+                    </button>
+                    <button class="button button-outline future-feature" type="button" data-feature="Import JSON">
+                        <i class="fa-solid fa-file-import" aria-hidden="true"></i> Import JSON
+                    </button>
+                </div>
+            </section>
+
+            <footer class="site-footer">
+                <p><strong>Hanoi Food Review © <span id="footer-year">2026</span></strong> – Bài tập lớn Cơ sở lập trình Web</p>
+                <p>Nhóm sinh viên Hanoi Food Review</p>
+                <nav aria-label="Liên kết cuối trang">
+                    <a href="../index.html">Trang chủ</a>
+                    <a href="mailto:hello@hanoifoodreview.local">Liên hệ</a>
+                </nav>
+            </footer>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="task-modal" hidden>
+        <section class="modal-container" role="dialog" aria-modal="true" aria-labelledby="task-modal-title">
+            <header class="modal-header">
+                <div>
+                    <span class="eyebrow">Kế hoạch đi quán</span>
+                    <h2 id="task-modal-title">Thêm kế hoạch</h2>
+                </div>
+                <button class="icon-button" id="close-task-modal" type="button" aria-label="Đóng form">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </header>
+
+            <form id="task-form" novalidate>
+                <div class="modal-body">
+                    <input id="task-id" type="hidden">
+
+                    <div class="form-group">
+                        <label for="task-title">Tiêu đề <span aria-hidden="true">*</span></label>
+                        <input id="task-title" type="text" maxlength="100" placeholder="Ví dụ: Ghé quán cafe mới">
+                        <p class="field-error" id="task-title-error"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="task-description">Mô tả <span aria-hidden="true">*</span></label>
+                        <textarea id="task-description" rows="4" maxlength="500" placeholder="Bạn muốn trải nghiệm và đánh giá điều gì?"></textarea>
+                        <p class="field-error" id="task-description-error"></p>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="task-deadline">Ngày dự kiến <span aria-hidden="true">*</span></label>
+                            <input id="task-deadline" type="date">
+                            <p class="field-error" id="task-deadline-error"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="task-priority">Mức ưu tiên <span aria-hidden="true">*</span></label>
+                            <select id="task-priority">
+                                <option value="">Chọn mức ưu tiên</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                            <p class="field-error" id="task-priority-error"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="task-category">Loại địa điểm <span aria-hidden="true">*</span></label>
+                            <select id="task-category">
+                                <option value="">Chọn loại địa điểm</option>
+                                <option value="Cafe">Cafe</option>
+                                <option value="Food">Food</option>
+                            </select>
+                            <p class="field-error" id="task-category-error"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="task-district">Quận <span aria-hidden="true">*</span></label>
+                            <select id="task-district">
+                                <option value="">Chọn quận</option>
+                                <option>Ba Đình</option><option>Cầu Giấy</option><option>Đống Đa</option>
+                                <option>Hà Đông</option><option>Hai Bà Trưng</option><option>Hoàn Kiếm</option>
+                                <option>Hoàng Mai</option><option>Long Biên</option><option>Nam Từ Liêm</option>
+                                <option>Bắc Từ Liêm</option><option>Tây Hồ</option><option>Thanh Xuân</option>
+                            </select>
+                            <p class="field-error" id="task-district-error"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="modal-footer">
+                    <button class="button button-outline" id="cancel-task-modal" type="button">Hủy</button>
+                    <button class="button button-primary" type="submit">
+                        <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i> Lưu kế hoạch
+                    </button>
+                </footer>
+            </form>
+        </section>
+    </div>
+
+    <div class="toast-container" id="toast-container" aria-live="polite"></div>
+    <script src="../js/storage.js"></script>
+    <script src="../js/validation.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/tasks.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hanoi Food Review - Cộng đồng chia sẻ trải nghiệm quán ăn và quán cà phê tại Hà Nội.">
+    <title>Hanoi Food Review</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="home">
+    <a class="skip-link" href="#main-content">Chuyển đến nội dung chính</a>
+
+    <header class="mobile-header">
+        <button class="icon-button menu-button" id="menu-button" type="button"
+            aria-label="Mở menu" aria-controls="left-sidebar" aria-expanded="false">
+            <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
+        <a class="mobile-brand" href="index.html" aria-label="Hanoi Food Review - Trang chủ">
+            <span class="brand-mark"><i class="fa-solid fa-bowl-food" aria-hidden="true"></i></span>
+            <span>Hanoi Food Review</span>
+        </a>
+        <a class="mobile-account" href="pages/login.html" aria-label="Đăng nhập">
+            <i class="fa-regular fa-circle-user" aria-hidden="true"></i>
+        </a>
+    </header>
+
+    <div class="menu-overlay" id="menu-overlay" hidden></div>
+
+    <div class="page-layout">
+        <aside class="left-sidebar" id="left-sidebar" aria-label="Điều hướng chính">
+            <div class="sidebar-inner">
+                <a class="brand" href="index.html">
+                    <span class="brand-mark"><i class="fa-solid fa-bowl-food" aria-hidden="true"></i></span>
+                    <span class="brand-text">
+                        <strong>Hanoi Food</strong>
+                        <small>Review</small>
+                    </span>
+                </a>
+
+                <nav class="main-navigation">
+                    <a class="nav-link active" href="index.html" aria-current="page">
+                        <i class="fa-solid fa-house" aria-hidden="true"></i><span>Trang chủ</span>
+                    </a>
+                    <a class="nav-link" href="pages/explore.html">
+                        <i class="fa-solid fa-compass" aria-hidden="true"></i><span>Khám phá</span>
+                    </a>
+                    <a class="nav-link" href="pages/tasks.html">
+                        <i class="fa-solid fa-calendar-check" aria-hidden="true"></i><span>Kế hoạch đi quán</span>
+                    </a>
+                    <a class="nav-link" href="pages/my-posts.html">
+                        <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i><span>Bài viết của tôi</span>
+                    </a>
+                    <a class="nav-link" href="pages/saved.html">
+                        <i class="fa-regular fa-bookmark" aria-hidden="true"></i><span>Đã lưu</span>
+                    </a>
+                    <a class="nav-link" href="pages/statistics.html">
+                        <i class="fa-solid fa-chart-column" aria-hidden="true"></i><span>Thống kê</span>
+                    </a>
+                    <a class="nav-link" href="pages/profile.html">
+                        <i class="fa-regular fa-user" aria-hidden="true"></i><span>Hồ sơ</span>
+                    </a>
+                </nav>
+
+                <div class="sidebar-account">
+                    <div class="account-summary">
+                        <span class="avatar avatar-small" id="sidebar-user-avatar" aria-hidden="true">K</span>
+                        <span>
+                            <strong id="sidebar-user-name">Khách ghé thăm</strong>
+                            <small id="sidebar-user-status">Chưa đăng nhập</small>
+                        </span>
+                    </div>
+                    <a class="button button-outline button-full" href="pages/login.html">
+                        <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
+                        Đăng nhập
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content" id="main-content">
+            <section class="welcome-banner">
+                <div>
+                    <span class="eyebrow"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Ăn ngon quanh Hà Nội</span>
+                    <h1>Hôm nay bạn muốn khám phá gì?</h1>
+                    <p>Chia sẻ trải nghiệm chân thật và tìm thêm những góc ăn uống đáng nhớ.</p>
+                </div>
+                <span class="welcome-illustration" aria-hidden="true">🍜</span>
+            </section>
+
+            <section class="quick-post card" aria-labelledby="quick-post-title">
+                <h2 class="visually-hidden" id="quick-post-title">Tạo bài review nhanh</h2>
+                <div class="quick-post-row">
+                    <span class="avatar" id="quick-post-avatar" aria-hidden="true">K</span>
+                    <a class="quick-post-input" href="pages/create-post.html">Bạn vừa khám phá quán nào?</a>
+                </div>
+                <div class="quick-post-actions">
+                    <a href="pages/create-post.html"><i class="fa-regular fa-image" aria-hidden="true"></i> Ảnh</a>
+                    <a href="pages/create-post.html"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Địa điểm</a>
+                    <a href="pages/create-post.html"><i class="fa-regular fa-star" aria-hidden="true"></i> Đánh giá</a>
+                    <a class="button button-primary" href="pages/create-post.html">Đăng bài</a>
+                </div>
+            </section>
+
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">Dành cho bạn</span>
+                    <h2>Review mới nhất</h2>
+                </div>
+                <a href="pages/explore.html">Xem tất cả <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+            </div>
+
+            <section id="post-list" class="post-list feed-list" aria-label="Danh sách bài review"></section>
+
+            <footer class="site-footer">
+                <p><strong>Hanoi Food Review © <span id="footer-year">2026</span></strong> – Bài tập lớn Cơ sở lập trình Web</p>
+                <p>Nhóm sinh viên Hanoi Food Review</p>
+                <nav aria-label="Liên kết cuối trang">
+                    <a href="index.html">Trang chủ</a>
+                    <a href="mailto:hello@hanoifoodreview.local">Liên hệ</a>
+                </nav>
+            </footer>
+        </main>
+
+        <aside class="right-sidebar" aria-label="Khám phá nhanh">
+            <div class="right-sidebar-inner">
+                <form class="search-box" action="pages/explore.html" method="get">
+                    <label class="visually-hidden" for="sidebar-search">Tìm kiếm bài review</label>
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    <input id="sidebar-search" name="q" type="search" placeholder="Tìm quán, món ăn...">
+                </form>
+
+                <section class="side-card">
+                    <div class="side-card-heading">
+                        <h2>Chủ đề nổi bật</h2>
+                        <i class="fa-solid fa-fire" aria-hidden="true"></i>
+                    </div>
+                    <div id="trending-topics"></div>
+                </section>
+
+                <section class="side-card">
+                    <div class="side-card-heading">
+                        <h2>Quán được yêu thích</h2>
+                        <i class="fa-solid fa-award" aria-hidden="true"></i>
+                    </div>
+                    <ol class="favorite-list" id="favorite-restaurants"></ol>
+                </section>
+
+                <p class="sidebar-note"><i class="fa-regular fa-lightbulb" aria-hidden="true"></i> Mỗi review chân thật đều giúp cộng đồng tìm được một quán ngon.</p>
+            </div>
+        </aside>
+    </div>
+
+    <div class="toast-container" id="toast-container" aria-live="polite"></div>
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/posts.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

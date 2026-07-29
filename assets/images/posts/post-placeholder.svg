@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title description">
+  <title id="title">Ảnh minh họa ẩm thực Hà Nội</title>
+  <desc id="description">Minh họa một bát thức ăn và đôi đũa trên nền vàng nhạt.</desc>
+  <rect width="960" height="540" fill="#fff4d6"/>
+  <circle cx="480" cy="285" r="150" fill="#fff" stroke="#f5b301" stroke-width="18"/>
+  <path d="M350 280c45 90 215 90 260 0" fill="#f5b301"/>
+  <path d="M635 90l-90 250M690 110l-95 245" stroke="#5b3a20" stroke-width="16" stroke-linecap="round"/>
+  <text x="480" y="480" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" fill="#5b3a20">Hanoi Food Review</text>
+</svg>

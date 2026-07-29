@@ -1,0 +1,261 @@
+/*
+ * explore.css
+ * Giao diện trang Khám phá và trang Bài viết đã lưu.
+ */
+
+.explore-layout {
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    max-width: 1300px;
+}
+
+.explore-main {
+    width: 100%;
+    max-width: 900px;
+    min-width: 0;
+}
+
+.explore-page,
+.saved-page,
+.explore-search-section,
+.explore-post-list,
+.saved-post-list {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.explore-header,
+.saved-header {
+    margin-bottom: 20px;
+}
+
+.explore-header h1,
+.saved-header h1 {
+    margin: 4px 0 6px;
+    font-size: clamp(29px, 4vw, 39px);
+}
+
+.explore-header p,
+.saved-header p {
+    margin: 0;
+    color: var(--muted-text);
+}
+
+.explore-layout .eyebrow {
+    color: #725300;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.explore-search-section,
+.saved-toolbar {
+    padding: 20px;
+}
+
+.explore-search-box {
+    position: relative;
+}
+
+.explore-search-box i {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    color: #8a8372;
+    transform: translateY(-50%);
+}
+
+.explore-search-box input,
+.filter-group select {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: 11px;
+    outline: none;
+    background: #fff;
+}
+
+.explore-search-box input {
+    height: 50px;
+    padding: 0 15px 0 45px;
+}
+
+.explore-search-box input:focus,
+.filter-group select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(244, 180, 0, .14);
+}
+
+.explore-toolbar {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.explore-toolbar > *,
+.saved-toolbar > *,
+.result-summary > * {
+    min-width: 0;
+}
+
+.explore-filters {
+    display: grid;
+    min-width: 0;
+    flex: 1;
+    grid-template-columns: repeat(4, minmax(125px, 1fr));
+    gap: 10px;
+}
+
+.filter-group {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-group span {
+    color: #6e6759;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.filter-group select {
+    height: 43px;
+    padding: 0 10px;
+}
+
+.filter-reset-button {
+    white-space: nowrap;
+}
+
+.quick-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 15px;
+}
+
+.quick-tag {
+    max-width: 100%;
+    padding: 5px 10px;
+    border: 0;
+    border-radius: 20px;
+    color: #745300;
+    background: var(--primary-light);
+    cursor: pointer;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.result-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin: 27px 3px 13px;
+}
+
+.result-summary h2 {
+    margin: 0;
+    font-size: 21px;
+}
+
+.result-summary span {
+    color: var(--muted-text);
+    font-size: 13px;
+}
+
+.explore-post-list,
+.saved-post-list {
+    display: grid;
+    gap: 18px;
+}
+
+.search-empty-state {
+    padding: 45px 20px;
+    color: var(--muted-text);
+    text-align: center;
+}
+
+.search-empty-state > i {
+    margin-bottom: 12px;
+    color: var(--primary-dark);
+    font-size: 43px;
+}
+
+.saved-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 25px;
+    border-radius: 17px;
+    background: linear-gradient(130deg, #fff6ca, #ffdf79);
+}
+
+.saved-count {
+    flex: 0 0 auto;
+    max-width: 100%;
+    padding: 8px 12px;
+    border-radius: 20px;
+    color: #684b00;
+    background: rgba(255,255,255,.65);
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.saved-toolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 210px;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 900px) {
+    .explore-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .explore-filters {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .explore-main {
+        max-width: 100%;
+    }
+
+    .saved-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .saved-toolbar {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .explore-search-section,
+    .saved-toolbar,
+    .saved-header {
+        padding: 16px;
+    }
+
+    .explore-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-reset-button {
+        width: 100%;
+    }
+
+    .result-summary {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 3px;
+    }
+}

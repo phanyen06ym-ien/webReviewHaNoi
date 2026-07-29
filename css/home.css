@@ -1,0 +1,470 @@
+/*
+ * home.css
+ * Giao diện riêng của trang chủ: banner, khu đăng nhanh và card bài review.
+ */
+
+.welcome-banner {
+    position: relative;
+    display: flex;
+    min-height: 190px;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 30px;
+    margin-bottom: 20px;
+    border-radius: 18px;
+    background: linear-gradient(130deg, #fff0a7 0%, #ffd95f 100%);
+}
+
+.welcome-banner::after {
+    position: absolute;
+    right: -45px;
+    bottom: -65px;
+    width: 180px;
+    height: 180px;
+    border: 26px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    content: "";
+}
+
+.welcome-banner > div {
+    position: relative;
+    z-index: 1;
+    max-width: 470px;
+}
+
+.welcome-banner h1 {
+    max-width: 430px;
+    margin: 7px 0 10px;
+    font-size: clamp(26px, 3.2vw, 38px);
+    line-height: 1.2;
+}
+
+.welcome-banner p {
+    margin: 0;
+    color: #675718;
+}
+
+.eyebrow {
+    color: #715200;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.welcome-illustration {
+    position: relative;
+    z-index: 1;
+    padding-right: 12px;
+    font-size: 76px;
+    filter: drop-shadow(0 8px 8px rgba(112, 79, 0, 0.2));
+    transform: rotate(4deg);
+}
+
+.quick-post {
+    padding: 20px;
+}
+
+.quick-post-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.quick-post-input {
+    display: flex;
+    min-height: 48px;
+    flex: 1;
+    align-items: center;
+    padding: 0 18px;
+    border: 1px solid #eee5c2;
+    border-radius: 24px;
+    color: var(--muted-text);
+    background: #fffdf7;
+}
+
+.quick-post-input:hover {
+    border-color: var(--primary-color);
+    background: #fffaf0;
+}
+
+.quick-post-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 15px;
+    margin-top: 15px;
+    border-top: 1px solid #f0ead5;
+}
+
+.quick-post-actions > a:not(.button) {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 11px;
+    border-radius: 9px;
+    color: #625d51;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.quick-post-actions > a:not(.button):hover {
+    color: #684a00;
+    background: #fff7d6;
+}
+
+.quick-post-actions > a:not(.button) i {
+    color: var(--primary-dark);
+}
+
+.quick-post-actions .button {
+    margin-left: auto;
+}
+
+.section-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin: 30px 4px 15px;
+}
+
+.section-heading h2 {
+    margin: 2px 0 0;
+    font-size: 22px;
+}
+
+.section-heading > a {
+    color: #765400;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.section-heading > a:hover {
+    color: var(--primary-dark);
+}
+
+.feed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.post-list {
+    min-width: 0;
+}
+
+.post-card {
+    overflow: hidden;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 18px 20px 10px;
+}
+
+.post-author {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+}
+
+.post-author strong {
+    overflow: hidden;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.post-author span {
+    color: var(--muted-text);
+    font-size: 12px;
+}
+
+.post-avatar {
+    display: grid;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 3px solid #fff7d3;
+    border-radius: 50%;
+    color: #614600;
+    background: #ffdc75;
+    font-weight: 700;
+}
+
+.category-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 9px;
+    border-radius: 20px;
+    color: #664a00;
+    background: var(--primary-light);
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.post-body {
+    padding: 6px 20px 16px;
+}
+
+.post-content {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.restaurant-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 7px;
+}
+
+.restaurant-line > span:first-child {
+    color: #745300;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.rating,
+.rating-stars {
+    color: var(--primary-color);
+    letter-spacing: 1px;
+}
+
+.rating span,
+.rating-stars .empty {
+    color: #dedede;
+}
+
+.post-title {
+    margin-bottom: 5px;
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+.restaurant-name {
+    margin-bottom: 3px;
+    color: #694c00;
+    font-weight: 700;
+}
+
+.post-description {
+    margin-bottom: 14px;
+}
+
+.post-location {
+    margin-bottom: 13px;
+    color: var(--muted-text);
+    font-size: 12px;
+}
+
+.post-location i {
+    color: var(--primary-dark);
+}
+
+.rating-stars {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-bottom: 12px;
+}
+
+.rating-stars span {
+    margin-left: 5px;
+    color: #756f62;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.post-image {
+    width: 100%;
+    max-height: 390px;
+    margin: 4px 0 0;
+    border-radius: 13px;
+    background: #f7f2e3;
+    object-fit: cover;
+}
+
+.post-image[hidden] {
+    display: none;
+}
+
+.post-placeholder {
+    display: grid;
+    min-height: 280px;
+    place-items: end start;
+    overflow: hidden;
+    padding: 22px;
+    border-radius: 13px;
+}
+
+.cafe-photo {
+    position: relative;
+    background:
+        radial-gradient(circle at 70% 28%, #fff3b0 0 8%, transparent 9%),
+        linear-gradient(145deg, rgba(69, 45, 21, 0.15), rgba(35, 65, 43, 0.35)),
+        linear-gradient(135deg, #c7a879, #53715c);
+}
+
+.cafe-photo::before,
+.cafe-photo::after {
+    position: absolute;
+    bottom: 0;
+    background: rgba(67, 42, 21, 0.42);
+    content: "";
+}
+
+.cafe-photo::before {
+    left: 15%;
+    width: 20%;
+    height: 55%;
+    border-radius: 90px 90px 0 0;
+}
+
+.cafe-photo::after {
+    right: 12%;
+    width: 36%;
+    height: 28%;
+    border-radius: 60px 60px 0 0;
+}
+
+.post-placeholder span {
+    position: relative;
+    z-index: 1;
+    padding: 7px 11px;
+    border-radius: 9px;
+    color: #fff;
+    background: rgba(30, 30, 30, 0.55);
+    font-size: 12px;
+}
+
+.hashtags,
+.post-hashtags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 13px;
+}
+
+.hashtags a,
+.post-hashtags a {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    padding: 4px 9px;
+    border-radius: 20px;
+    color: #725200;
+    background: #fff7d7;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.hashtags a:hover,
+.post-hashtags a:hover {
+    background: var(--primary-light);
+}
+
+.post-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid #f0ead5;
+}
+
+.post-actions button,
+.action-button {
+    min-width: 0;
+    min-height: 48px;
+    border: 0;
+    background: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.post-actions button:hover,
+.action-button:hover {
+    color: #765400;
+    background: #fffaf0;
+}
+
+.action-button.active {
+    color: #785600;
+    background: #fff9e5;
+}
+
+.action-button.liked {
+    color: #c6384b;
+}
+
+.action-button.saved {
+    color: #8a6300;
+}
+
+.post-actions button + button {
+    border-left: 1px solid #f0ead5;
+}
+
+.feed-post-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.feed-post-links a,
+.feed-post-links button {
+    padding: 5px 10px;
+    border: 0;
+    border-radius: 8px;
+    color: #684b00;
+    background: #fff6d2;
+    cursor: pointer;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.feed-post-links button {
+    color: var(--danger-color);
+    background: #fff0f2;
+}
+
+.empty-state {
+    padding: 46px 24px;
+    color: var(--muted-text);
+    text-align: center;
+}
+
+.empty-state > i {
+    margin-bottom: 14px;
+    color: var(--primary-dark);
+    font-size: 44px;
+}
+
+.empty-state h3 {
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+.empty-state p {
+    margin-bottom: 18px;
+}
+
+.trending-item {
+    min-width: 0;
+}
+
+.favorite-restaurant-item {
+    min-width: 0;
+}

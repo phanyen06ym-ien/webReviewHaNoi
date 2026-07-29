@@ -1,0 +1,31 @@
+:root {
+    --primary: #f5b301;
+    --primary-dark: #e29c00;
+    --primary-light: #fff4d6;
+    --danger: #e74c3c;
+    --success: #27ae60;
+    --warning: #f39c12;
+    --info: #3498db;
+    --background: #fafafa;
+    --card: #ffffff;
+    --text: #222222;
+    --text-light: #666666;
+    --border: #e5e5e5;
+    --shadow-system: 0 10px 25px rgba(0, 0, 0, .08);
+    --radius: 16px;
+    --transition: .25s ease;
+    --font-family: "Inter", "Be Vietnam Pro", Arial, sans-serif;
+
+    /* Alias tương thích với CSS của các giai đoạn trước. */
+    --primary-color: var(--primary);
+    --primary-dark-color: var(--primary-dark);
+    --background-color: var(--background);
+    --surface-color: var(--card);
+    --text-color: var(--text);
+    --muted-text: var(--text-light);
+    --border-color: var(--border);
+    --danger-color: var(--danger);
+    --success-color: var(--success);
+    --warning-color: var(--warning);
+    --shadow: var(--shadow-system);
+}

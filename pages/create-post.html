@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tạo bài review quán ăn và quán cà phê tại Hà Nội.">
+    <title>Tạo bài review | Hanoi Food Review</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css"><link rel="stylesheet" href="../css/post.css"><link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-page="create-post" data-require-auth="true">
+    <header class="mobile-header">
+        <button class="icon-button" id="menu-button" type="button" aria-label="Mở menu" aria-controls="left-sidebar" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+        <a class="mobile-brand" href="../index.html"><span class="brand-mark"><i class="fa-solid fa-bowl-food"></i></span><span>Hanoi Food Review</span></a>
+        <a class="mobile-account" href="profile.html" aria-label="Hồ sơ"><i class="fa-regular fa-circle-user"></i></a>
+    </header>
+    <div class="menu-overlay" id="menu-overlay" hidden></div>
+    <div class="page-layout post-page-layout">
+        <aside class="left-sidebar" id="left-sidebar"><div class="sidebar-inner">
+            <a class="brand" href="../index.html"><span class="brand-mark"><i class="fa-solid fa-bowl-food"></i></span><span class="brand-text"><strong>Hanoi Food</strong><small>Review</small></span></a>
+            <nav class="main-navigation">
+                <a class="nav-link" href="../index.html"><i class="fa-solid fa-house"></i><span>Trang chủ</span></a>
+                <a class="nav-link active" href="create-post.html"><i class="fa-solid fa-square-plus"></i><span>Tạo bài review</span></a>
+                <a class="nav-link" href="my-posts.html"><i class="fa-regular fa-pen-to-square"></i><span>Bài viết của tôi</span></a>
+                <a class="nav-link" href="tasks.html"><i class="fa-solid fa-calendar-check"></i><span>Kế hoạch đi quán</span></a>
+                <a class="nav-link" href="saved.html"><i class="fa-regular fa-bookmark"></i><span>Đã lưu</span></a>
+            </nav>
+            <div class="sidebar-account"><div class="account-summary"><span class="avatar avatar-small" id="sidebar-user-avatar">K</span><span><strong id="sidebar-user-name">Khách</strong><small id="sidebar-user-status">Chưa đăng nhập</small></span></div></div>
+        </div></aside>
+        <main class="main-content post-main post-form-page" id="main-content">
+            <header class="post-page-header"><span class="eyebrow">Chia sẻ trải nghiệm</span><h1>Tạo bài review</h1><p>Chia sẻ trải nghiệm của bạn về một địa điểm tại Hà Nội.</p></header>
+            <div class="post-form-container card">
+                <form class="post-form" id="post-form" novalidate>
+                    <div class="form-section"><h2>Thông tin địa điểm</h2>
+                        <div class="form-group"><label for="post-title">Tiêu đề *</label><input id="post-title" type="text" maxlength="120"><p class="field-error" id="post-title-error"></p></div>
+                        <div class="form-group"><label for="restaurant-name">Tên quán *</label><input id="restaurant-name" type="text" maxlength="100"><p class="field-error" id="post-restaurant-error"></p></div>
+                        <div class="form-row">
+                            <div class="form-group"><label for="post-category">Loại địa điểm *</label><select id="post-category"><option value="">Chọn loại</option><option value="Cafe">Cafe</option><option value="Food">Food</option></select><p class="field-error" id="post-category-error"></p></div>
+                            <div class="form-group"><label for="post-district">Quận *</label><select id="post-district"><option value="">Chọn quận</option><option>Ba Đình</option><option>Cầu Giấy</option><option>Đống Đa</option><option>Hà Đông</option><option>Hai Bà Trưng</option><option>Hoàn Kiếm</option><option>Hoàng Mai</option><option>Long Biên</option><option>Nam Từ Liêm</option><option>Bắc Từ Liêm</option><option>Tây Hồ</option><option>Thanh Xuân</option></select><p class="field-error" id="post-district-error"></p></div>
+                        </div>
+                        <div class="form-group"><label for="post-address">Địa chỉ *</label><input id="post-address" type="text"><p class="field-error" id="post-address-error"></p></div>
+                        <div class="form-group"><label for="post-rating">Đánh giá *</label><select id="post-rating" class="rating-input"><option value="">Chọn số sao</option><option value="1">1 sao</option><option value="2">2 sao</option><option value="3">3 sao</option><option value="4">4 sao</option><option value="5">5 sao</option></select><p class="field-error" id="post-rating-error"></p></div>
+                    </div>
+                    <div class="form-section"><h2>Nội dung review</h2>
+                        <div class="form-group"><label for="post-content">Cảm nhận của bạn *</label><textarea id="post-content" rows="7" maxlength="1500"></textarea><p class="field-error" id="post-content-error"></p></div>
+                        <div class="form-group"><label for="post-image">Đường dẫn ảnh</label><input id="post-image" type="text" placeholder="../assets/images/posts/ten-anh.jpg"><p class="form-hint">Ảnh được lưu bằng đường dẫn để phù hợp giới hạn LocalStorage.</p><p class="field-error" id="post-image-error"></p><div class="image-preview" id="image-preview" hidden><img alt="Xem trước ảnh review"></div></div>
+                        <div class="form-group"><label for="post-hashtags">Hashtag</label><input id="post-hashtags" type="text" placeholder="CafeHaNoi, HaDong, CafeHocTap"><p class="form-hint">Tối đa 5 hashtag, phân cách bằng dấu phẩy.</p><p class="field-error" id="post-hashtags-error"></p></div>
+                    </div>
+                    <div class="form-actions"><a class="button button-outline post-cancel-link" href="../index.html">Hủy</a><button class="button button-primary" type="submit"><i class="fa-solid fa-paper-plane"></i> Đăng bài</button></div>
+                </form>
+            </div>
+            <footer class="site-footer"><p><strong>Hanoi Food Review © <span id="footer-year">2026</span></strong></p><nav><a href="../index.html">Trang chủ</a><a href="my-posts.html">Bài của tôi</a></nav></footer>
+        </main>
+    </div>
+    <div class="toast-container" id="toast-container" aria-live="polite"></div>
+    <script src="../js/storage.js"></script><script src="../js/validation.js"></script><script src="../js/auth.js"></script><script src="../js/posts.js"></script><script src="../js/app.js"></script>
+</body>
+</html>

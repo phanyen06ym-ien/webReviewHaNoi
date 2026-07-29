@@ -1,0 +1,141 @@
+.profile-layout {
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    max-width: 1180px;
+}
+
+.profile-main {
+    width: 100%;
+    max-width: 880px;
+}
+
+.profile-header-card,
+.profile-form-card {
+    padding: 26px;
+}
+
+.profile-header-card {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: linear-gradient(135deg, #fff, #fff5c8);
+}
+
+.profile-avatar-large,
+.avatar-preview {
+    display: grid;
+    flex: 0 0 auto;
+    width: 112px;
+    height: 112px;
+    place-items: center;
+    border: 5px solid #fff;
+    border-radius: 50%;
+    color: #654900;
+    background: #ffdb72;
+    box-shadow: var(--shadow);
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.profile-identity {
+    min-width: 0;
+}
+
+.profile-identity h1 {
+    margin-bottom: 2px;
+    overflow-wrap: anywhere;
+}
+
+.profile-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 16px;
+    color: var(--muted-text);
+}
+
+.profile-bio {
+    margin: 12px 0 0;
+}
+
+.profile-statistics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.profile-stat-card {
+    padding: 18px;
+    text-align: center;
+}
+
+.profile-stat-card strong {
+    display: block;
+    color: #6e5000;
+    font-size: 25px;
+}
+
+.profile-stat-card span {
+    color: var(--muted-text);
+    font-size: 12px;
+}
+
+.profile-form-card h2 {
+    margin-bottom: 18px;
+}
+
+.profile-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.profile-form .form-group-wide,
+.profile-actions {
+    grid-column: 1 / -1;
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.bio-counter {
+    color: var(--muted-text);
+    font-size: 12px;
+    text-align: right;
+}
+
+@media (max-width: 700px) {
+    .profile-header-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .profile-statistics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-header-card,
+    .profile-form-card {
+        padding: 18px;
+    }
+
+    .profile-form {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-form > *,
+    .profile-actions {
+        grid-column: 1;
+        min-width: 0;
+    }
+
+    .profile-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}

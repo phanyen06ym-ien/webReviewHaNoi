@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Theo dõi thống kê và quản lý dữ liệu Hanoi Food Review.">
+    <title>Thống kê hệ thống | Hanoi Food Review</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/statistics.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-page="statistics" data-require-auth="true">
+    <a class="skip-link" href="#main-content">Chuyển đến nội dung chính</a>
+    <header class="mobile-header">
+        <button class="icon-button" id="menu-button" type="button" aria-label="Mở menu" aria-controls="left-sidebar" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+        <a class="mobile-brand" href="../index.html"><span class="brand-mark"><i class="fa-solid fa-bowl-food"></i></span><span>Hanoi Food Review</span></a>
+        <a class="mobile-account" href="profile.html" aria-label="Hồ sơ"><i class="fa-regular fa-circle-user"></i></a>
+    </header>
+    <div class="menu-overlay" id="menu-overlay" hidden></div>
+
+    <div class="page-layout statistics-layout">
+        <aside class="left-sidebar" id="left-sidebar">
+            <div class="sidebar-inner">
+                <a class="brand" href="../index.html"><span class="brand-mark"><i class="fa-solid fa-bowl-food"></i></span><span class="brand-text"><strong>Hanoi Food</strong><small>Review</small></span></a>
+                <nav class="main-navigation">
+                    <a class="nav-link" href="../index.html"><i class="fa-solid fa-house"></i><span>Trang chủ</span></a>
+                    <a class="nav-link" href="explore.html"><i class="fa-solid fa-compass"></i><span>Khám phá</span></a>
+                    <a class="nav-link" href="tasks.html"><i class="fa-solid fa-calendar-check"></i><span>Kế hoạch đi quán</span></a>
+                    <a class="nav-link" href="my-posts.html"><i class="fa-regular fa-pen-to-square"></i><span>Bài viết của tôi</span></a>
+                    <a class="nav-link" href="saved.html"><i class="fa-regular fa-bookmark"></i><span>Đã lưu</span></a>
+                    <a class="nav-link active" href="statistics.html" aria-current="page"><i class="fa-solid fa-chart-column"></i><span>Thống kê</span></a>
+                    <a class="nav-link" href="profile.html"><i class="fa-regular fa-user"></i><span>Hồ sơ</span></a>
+                </nav>
+                <div class="sidebar-account">
+                    <div class="account-summary"><span class="avatar avatar-small" id="sidebar-user-avatar">K</span><span><strong id="sidebar-user-name">Khách</strong><small id="sidebar-user-status">Chưa đăng nhập</small></span></div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content statistics-page" id="main-content">
+            <header class="statistics-header">
+                <div><span class="eyebrow">Dữ liệu ứng dụng</span><h1>Thống kê hệ thống</h1><p>Theo dõi hoạt động review, người dùng và kế hoạch khám phá quán.</p><span class="statistics-updated-at" id="statistics-updated-at"></span></div>
+                <div class="statistics-header-actions">
+                    <button class="button button-primary" id="export-json-button" type="button"><i class="fa-solid fa-download"></i> Xuất dữ liệu</button>
+                    <button class="button button-outline" id="import-json-button" type="button"><i class="fa-solid fa-upload"></i> Nhập dữ liệu</button>
+                    <input id="import-json-input" type="file" accept=".json,application/json" aria-label="Chọn file JSON để nhập dữ liệu" hidden>
+                </div>
+            </header>
+
+            <section class="statistics-overview" aria-label="Thống kê tổng quan">
+                <article class="statistic-card card"><span class="statistic-icon"><i class="fa-regular fa-newspaper"></i></span><span class="statistic-content"><strong class="statistic-value" id="total-posts-stat">0</strong><span class="statistic-label">Tổng bài review</span><small>Nội dung đã đăng</small></span></article>
+                <article class="statistic-card card"><span class="statistic-icon"><i class="fa-solid fa-users"></i></span><span class="statistic-content"><strong class="statistic-value" id="total-users-stat">0</strong><span class="statistic-label">Tổng người dùng</span><small>Tài khoản trong hệ thống</small></span></article>
+                <article class="statistic-card card"><span class="statistic-icon"><i class="fa-regular fa-heart"></i></span><span class="statistic-content"><strong class="statistic-value" id="total-likes-stat">0</strong><span class="statistic-label">Tổng lượt thích</span><small>Tương tác với bài viết</small></span></article>
+                <article class="statistic-card card"><span class="statistic-icon"><i class="fa-regular fa-bookmark"></i></span><span class="statistic-content"><strong class="statistic-value" id="total-saved-stat">0</strong><span class="statistic-label">Bài viết đã lưu</span><small>Địa điểm được yêu thích</small></span></article>
+                <article class="statistic-card card"><span class="statistic-icon"><i class="fa-regular fa-calendar-check"></i></span><span class="statistic-content"><strong class="statistic-value" id="total-tasks-stat">0</strong><span class="statistic-label">Tổng kế hoạch</span><small>Task khám phá quán</small></span></article>
+                <article class="statistic-card card"><span class="statistic-icon"><i class="fa-solid fa-check"></i></span><span class="statistic-content"><strong class="statistic-value" id="completed-tasks-stat">0</strong><span class="statistic-label">Kế hoạch hoàn thành</span><small>Task có trạng thái Done</small></span></article>
+            </section>
+
+            <header class="statistics-section-heading"><h2>Phân tích dữ liệu</h2><p>Biểu đồ được tính trực tiếp từ dữ liệu LocalStorage hiện tại.</p></header>
+            <section class="statistics-grid">
+                <article class="chart-card card"><header class="chart-card-header"><h3>Review theo loại địa điểm</h3><p>So sánh Cafe và Food.</p></header><div class="chart-container"><canvas id="category-chart" role="img" aria-label="Biểu đồ bài review theo loại địa điểm"></canvas><p class="chart-empty-message" hidden></p></div></article>
+                <article class="chart-card card"><header class="chart-card-header"><h3>Review theo quận</h3><p>Tối đa 8 quận có nhiều bài nhất.</p></header><div class="chart-container"><canvas id="district-chart" role="img" aria-label="Biểu đồ bài review theo quận"></canvas><p class="chart-empty-message" hidden></p></div></article>
+                <article class="chart-card card"><header class="chart-card-header"><h3>Phân bố rating</h3><p>Đủ mức đánh giá từ 1 đến 5 sao.</p></header><div class="chart-container"><canvas id="rating-chart" role="img" aria-label="Biểu đồ phân bố rating từ 1 đến 5 sao"></canvas><p class="chart-empty-message" hidden></p></div></article>
+                <article class="chart-card card"><header class="chart-card-header"><h3>Bài đăng theo tháng</h3><p>Nhóm theo tháng và năm đăng bài.</p></header><div class="chart-container"><canvas id="monthly-post-chart" role="img" aria-label="Biểu đồ bài đăng theo tháng và năm"></canvas><p class="chart-empty-message" hidden></p></div></article>
+                <article class="chart-card card"><header class="chart-card-header"><h3>Trạng thái Task</h3><p>Pending và Done.</p></header><div class="chart-container"><canvas id="task-status-chart" role="img" aria-label="Biểu đồ trạng thái Task"></canvas><p class="chart-empty-message" hidden></p></div></article>
+                <article class="chart-card card"><header class="chart-card-header"><h3>Mức ưu tiên Task</h3><p>Low, Medium và High.</p></header><div class="chart-container"><canvas id="task-priority-chart" role="img" aria-label="Biểu đồ mức ưu tiên Task"></canvas><p class="chart-empty-message" hidden></p></div></article>
+                <article class="chart-card card"><header class="chart-card-header"><h3>Task theo loại địa điểm</h3><p>Kế hoạch Cafe và Food.</p></header><div class="chart-container"><canvas id="task-category-chart" role="img" aria-label="Biểu đồ Task theo loại địa điểm"></canvas><p class="chart-empty-message" hidden></p></div></article>
+            </section>
+
+            <section class="data-management-section">
+                <article class="data-management-card card">
+                    <div><h2>Quản lý dữ liệu</h2><p>Xuất file sao lưu hoặc thay thế dữ liệu bằng một file JSON hợp lệ.</p><p class="backup-warning"><i class="fa-solid fa-triangle-exclamation"></i> File sao lưu có thể chứa dữ liệu tài khoản demo. Không chia sẻ file công khai.</p><p class="import-status" id="import-status" aria-live="polite"></p></div>
+                    <div class="data-action-buttons"><button class="button danger-action" id="reset-sample-data-button" type="button"><i class="fa-solid fa-rotate-left"></i> Khôi phục dữ liệu mẫu</button></div>
+                </article>
+            </section>
+            <footer class="site-footer"><p><strong>Hanoi Food Review © <span id="footer-year">2026</span></strong></p><nav><a href="../index.html">Trang chủ</a><a href="profile.html">Hồ sơ</a></nav></footer>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/statistics.js"></script>
+    <script src="../js/export-import.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+</html>
