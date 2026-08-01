@@ -14,6 +14,49 @@ function savePosts(posts) {
     return saveData(STORAGE_KEYS.POSTS, posts);
 }
 
+function getComments() {
+    const comments = getData(STORAGE_KEYS.COMMENTS, []);
+    return Array.isArray(comments) ? comments : [];
+}
+
+function saveComments(comments) {
+    return saveData(STORAGE_KEYS.COMMENTS, comments);
+}
+
+function getCommentsForPost(postId) {
+    return getComments().filter(function (comment) {
+        return Number(comment.postId) === Number(postId);
+    }).sort(function (firstComment, secondComment) {
+        return new Date(secondComment.createdAt) - new Date(firstComment.createdAt);
+    });
+}
+
+function getCommentCount(postId) {
+    return getComments().filter(function (comment) {
+        return Number(comment.postId) === Number(postId);
+    }).length;
+}
+
+function getCommentCountsByPostId() {
+    const counts = new Map();
+    getComments().forEach(function (comment) {
+        const postId = Number(comment.postId);
+        counts.set(postId, (counts.get(postId) || 0) + 1);
+    });
+    return counts;
+}
+
+function validateComment(content) {
+    const normalizedContent = String(content || "").trim();
+    if (!normalizedContent) {
+        return { isValid: false, message: "Vui lòng nhập nội dung bình luận." };
+    }
+    if (normalizedContent.length > 500) {
+        return { isValid: false, message: "Bình luận không được vượt quá 500 ký tự." };
+    }
+    return { isValid: true, value: normalizedContent };
+}
+
 function getCurrentUser() {
     return getData(STORAGE_KEYS.CURRENT_USER, null);
 }
@@ -31,7 +74,7 @@ function normalizeImagePath(imagePath) {
 
 function resolveImageSource(imagePath) {
     const cleanPath = normalizeImagePath(imagePath);
-    const isPageFolder = document.body && document.body.dataset.page;
+    const isPageFolder = document.body && document.body.dataset.page !== "home";
 
     if (cleanPath.startsWith("assets/") && isPageFolder) {
         return "../" + cleanPath;
@@ -41,7 +84,7 @@ function resolveImageSource(imagePath) {
 }
 
 function getPostPagePrefix() {
-    return document.body && document.body.dataset.page ? "" : "pages/";
+    return document.body && document.body.dataset.page === "home" ? "pages/" : "";
 }
 
 function createRatingStars(rating) {
@@ -57,20 +100,18 @@ function createRatingStars(rating) {
 }
 
 function createPostImage(post) {
-    if (!post.image) {
-        return "";
-    }
+    const image = post.image || "assets/images/posts/post-placeholder.svg";
 
     return `
         <img class="post-image"
-            src="${escapeHTML(resolveImageSource(post.image))}"
+            src="${escapeHTML(resolveImageSource(image))}"
             alt="Hình ảnh tại ${escapeHTML(post.restaurantName)}"
             loading="lazy"
             decoding="async">
     `;
 }
 
-function createPostCard(post) {
+function createPostCard(post, commentCounts) {
     const authorName = String(post.authorName || "Người dùng");
     const safeRating = Math.min(5, Math.max(1, Math.round(Number(post.rating) || 1)));
     const authorInitial = escapeHTML(authorName.trim().charAt(0).toUpperCase() || "U");
@@ -85,6 +126,9 @@ function createPostCard(post) {
     const pagePrefix = getPostPagePrefix();
     const displayedHashtags = [];
     const displayedHashtagKeys = new Set();
+    const commentCount = commentCounts instanceof Map
+        ? (commentCounts.get(Number(post.id)) || 0)
+        : getCommentCount(post.id);
 
     hashtags.forEach(function (hashtag) {
         const cleanHashtag = String(hashtag).trim().replace(/^#+/, "");
@@ -148,7 +192,7 @@ function createPostCard(post) {
                     data-action="comment" data-post-id="${Number(post.id)}"
                     aria-label="Bình luận bài ${escapeHTML(post.title)}">
                     <i class="fa-regular fa-comment" aria-hidden="true"></i>
-                    <span>Bình luận</span>
+                    <span>${commentCount} bình luận</span>
                 </button>
                 <button class="action-button ${savedClass}" type="button"
                     data-action="save" data-post-id="${Number(post.id)}"
@@ -184,7 +228,10 @@ function renderPosts(postsToRender) {
     }
 
     // map tạo HTML cho từng bài, join ghép thành danh sách.
-    postList.innerHTML = posts.map(createPostCard).join("");
+    const commentCounts = getCommentCountsByPostId();
+    postList.innerHTML = posts.map(function (post) {
+        return createPostCard(post, commentCounts);
+    }).join("");
 }
 
 function toggleLike(postId) {
@@ -268,6 +315,9 @@ async function deletePost(postId) {
     });
 
     savePosts(remainingPosts);
+    saveComments(getComments().filter(function (comment) {
+        return Number(comment.postId) !== Number(postId);
+    }));
     const savedIds = remainingPosts.filter(function (item) {
         return item.isSaved;
     }).map(function (item) {
@@ -437,7 +487,10 @@ function initializePostInteractions() {
         }
 
         if (action === "comment") {
-            showToast("Bình luận sẽ được hoàn thiện ở giai đoạn tiếp theo", "info");
+            window.location.href = `${getPostPagePrefix()}post-detail.html?id=${postId}#comments`;
+        }
+        if (action === "delete-comment") {
+            await handleDeleteComment(Number(actionButton.dataset.commentId));
         }
         if (action === "delete") {
             const wasDeleted = await deletePost(postId);
@@ -450,25 +503,141 @@ function initializePostInteractions() {
     document.addEventListener("error", function (event) {
         const image = event.target;
         if (!(image instanceof HTMLImageElement) ||
-            !image.matches(".post-image, .my-post-image, .post-detail-image")) {
+            !image.matches(".post-image, .my-post-image, .post-detail-image, .comment-avatar-image")) {
             return;
         }
 
-        const fallback = document.createElement("div");
-        fallback.className = `${image.className} image-fallback`;
-        fallback.setAttribute("role", "img");
-        fallback.setAttribute("aria-label", "Không thể tải ảnh bài viết");
-
-        const icon = document.createElement("i");
-        icon.className = "fa-solid fa-image";
-        icon.setAttribute("aria-hidden", "true");
-
-        const message = document.createElement("span");
-        message.textContent = "Ảnh hiện không khả dụng";
-
-        fallback.append(icon, message);
-        image.replaceWith(fallback);
+        if (image.dataset.fallbackApplied === "true") {
+            image.hidden = true;
+            return;
+        }
+        image.dataset.fallbackApplied = "true";
+        if (image.matches(".comment-avatar-image")) {
+            image.src = resolveAuthAvatar("assets/images/avatars/default-avatar.svg");
+            image.alt = "Ảnh đại diện mặc định";
+        } else {
+            image.src = resolveImageSource("assets/images/posts/post-placeholder.svg");
+            image.alt = "Ảnh minh họa mặc định cho bài review";
+        }
     }, true);
+
+    document.addEventListener("submit", function (event) {
+        if (event.target.matches("#comment-form")) handleCommentSubmit(event);
+    });
+
+    document.addEventListener("input", function (event) {
+        if (!event.target.matches("#comment-content")) return;
+        const counter = document.querySelector("#comment-character-count");
+        const error = document.querySelector("#comment-error");
+        if (counter) counter.textContent = `${event.target.value.length}/500`;
+        if (error && event.target.value.trim()) error.textContent = "";
+    });
+}
+
+function createCommentItem(comment, currentUser) {
+    const isOwner = currentUser && Number(comment.userId) === Number(currentUser.id);
+    const avatar = resolveAuthAvatar(comment.authorAvatar || "assets/images/avatars/default-avatar.svg");
+    return `
+        <li class="comment-item" data-comment-id="${Number(comment.id)}">
+            <img class="comment-avatar-image" src="${escapeHTML(avatar)}" width="42" height="42"
+                alt="Ảnh đại diện của ${escapeHTML(comment.authorName)}" loading="lazy">
+            <div class="comment-content">
+                <header class="comment-header">
+                    <span><strong>${escapeHTML(comment.authorName)}</strong>${isOwner ? '<small class="comment-owner-badge">Bạn</small>' : ""}</span>
+                    <time datetime="${escapeHTML(comment.createdAt)}">${escapeHTML(formatDateTime(comment.createdAt))}</time>
+                </header>
+                <p>${escapeHTML(comment.content)}</p>
+            </div>
+            ${isOwner ? `<button class="comment-delete-button" type="button" data-action="delete-comment"
+                data-comment-id="${Number(comment.id)}" aria-label="Xóa bình luận của bạn">
+                <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+            </button>` : ""}
+        </li>
+    `;
+}
+
+function createCommentsSection(postId) {
+    const currentUser = getCurrentUser();
+    const comments = getCommentsForPost(postId);
+    const redirect = encodeURIComponent(`post-detail.html?id=${Number(postId)}#comments`);
+    const formHTML = currentUser ? `
+        <form class="comment-form" id="comment-form" novalidate>
+            <img class="comment-avatar-image" src="${escapeHTML(resolveAuthAvatar(currentUser.avatar || "assets/images/avatars/default-avatar.svg"))}"
+                width="42" height="42" alt="Ảnh đại diện của ${escapeHTML(currentUser.fullname)}">
+            <div class="comment-form-body">
+                <label for="comment-content">Chia sẻ cảm nhận của bạn</label>
+                <textarea id="comment-content" rows="4" maxlength="500" placeholder="Viết bình luận..." aria-describedby="comment-error comment-character-count"></textarea>
+                <div class="comment-form-meta"><p class="field-error" id="comment-error" aria-live="polite"></p><span id="comment-character-count">0/500</span></div>
+                <button class="button button-primary" type="submit">Gửi bình luận</button>
+            </div>
+        </form>
+    ` : `
+        <div class="comment-login-prompt">
+            <p>Bạn cần đăng nhập để bình luận.</p>
+            <a class="button button-primary" href="auth.html?mode=login&amp;redirect=${redirect}">Đăng nhập</a>
+        </div>
+    `;
+    const listHTML = comments.length
+        ? `<ul class="comment-list">${comments.map(function (comment) { return createCommentItem(comment, currentUser); }).join("")}</ul>`
+        : `<p class="comment-empty-state">Chưa có bình luận nào. Hãy là người đầu tiên chia sẻ cảm nhận.</p>`;
+
+    return `
+        <section class="comments-section card" id="comments" aria-labelledby="comments-title">
+            <header class="comments-heading"><h2 id="comments-title">Bình luận</h2><span>${comments.length} bình luận</span></header>
+            ${formHTML}
+            ${listHTML}
+        </section>
+    `;
+}
+
+function handleCommentSubmit(event) {
+    event.preventDefault();
+    const currentUser = getCurrentUser();
+    const postId = getPostIdFromUrl();
+    const textarea = event.target.querySelector("#comment-content");
+    const error = event.target.querySelector("#comment-error");
+    if (!currentUser || !postId || !textarea) return;
+    const validation = validateComment(textarea.value);
+    if (!validation.isValid) {
+        if (error) error.textContent = validation.message;
+        textarea.focus();
+        return;
+    }
+    const comments = getComments();
+    comments.push({
+        id: generateId(comments),
+        postId,
+        userId: currentUser.id,
+        authorName: currentUser.fullname,
+        authorAvatar: currentUser.avatar || "assets/images/avatars/default-avatar.svg",
+        content: validation.value,
+        createdAt: new Date().toISOString(),
+        updatedAt: null
+    });
+    saveComments(comments);
+    renderPostDetail(postId);
+    showToast("Đã thêm bình luận.", "success");
+}
+
+async function handleDeleteComment(commentId) {
+    const currentUser = getCurrentUser();
+    const comments = getComments();
+    const comment = comments.find(function (item) { return Number(item.id) === Number(commentId); });
+    if (!comment || !currentUser || Number(comment.userId) !== Number(currentUser.id)) {
+        showToast("Bạn không có quyền xóa bình luận này.", "error");
+        return false;
+    }
+    const shouldDelete = await showConfirmModal({
+        title: "Xóa bình luận?",
+        message: "Bạn có chắc muốn xóa bình luận này không?",
+        confirmText: "Xóa bình luận",
+        danger: true
+    });
+    if (!shouldDelete) return false;
+    saveComments(comments.filter(function (item) { return Number(item.id) !== Number(commentId); }));
+    renderPostDetail(getPostIdFromUrl());
+    showToast("Đã xóa bình luận.", "success");
+    return true;
 }
 
 function collectPostFormData() {
@@ -490,7 +659,7 @@ function createPost(postData) {
     const currentUser = getCurrentUser();
 
     if (!currentUser) {
-        window.location.href = "login.html";
+        window.location.href = "auth.html?mode=login";
         return null;
     }
 
@@ -516,7 +685,10 @@ function createPost(postData) {
     };
 
     posts.unshift(newPost);
-    savePosts(posts);
+    if (!savePosts(posts)) {
+        showToast("Không đủ dung lượng để lưu bài. Hãy chọn ảnh nhỏ hơn hoặc xóa bớt dữ liệu.", "error");
+        return null;
+    }
     showToast("Đã đăng bài review", "success");
     window.setTimeout(function () {
         window.location.href = "my-posts.html";
@@ -547,7 +719,10 @@ function updatePost(postId, postData) {
     post.hashtags = postData.hashtags;
     post.updatedAt = new Date().toISOString();
 
-    savePosts(posts);
+    if (!savePosts(posts)) {
+        showToast("Không đủ dung lượng để lưu thay đổi. Hãy chọn ảnh nhỏ hơn.", "error");
+        return false;
+    }
     showToast("Đã cập nhật bài review", "success");
     window.setTimeout(function () {
         window.location.href = "my-posts.html";
@@ -569,13 +744,16 @@ function getCurrentUserPosts() {
     });
 }
 
-function createMyPostCard(post) {
+function createMyPostCard(post, commentCounts) {
     const imageHTML = post.image
         ? `<img class="my-post-image" src="${escapeHTML(resolveImageSource(post.image))}" alt="Ảnh ${escapeHTML(post.restaurantName)}" loading="lazy" decoding="async">`
         : `<div class="my-post-image-placeholder"><i class="fa-solid fa-utensils"></i></div>`;
     const excerpt = String(post.content || "").length > 150
         ? String(post.content).slice(0, 150) + "..."
         : String(post.content || "");
+    const commentCount = commentCounts instanceof Map
+        ? (commentCounts.get(Number(post.id)) || 0)
+        : getCommentCount(post.id);
 
     return `
         <article class="my-post-card" data-post-id="${Number(post.id)}">
@@ -587,6 +765,7 @@ function createMyPostCard(post) {
                     <span>${createRatingStars(post.rating)}</span>
                     <span><i class="fa-solid fa-location-dot"></i> ${escapeHTML(post.address)}</span>
                     <span>Đăng ${escapeHTML(formatDateTime(post.createdAt))}</span>
+                    <span><i class="fa-regular fa-comment"></i> ${commentCount} bình luận</span>
                     ${post.updatedAt ? `<span class="updated-label">Đã cập nhật ${escapeHTML(formatDateTime(post.updatedAt))}</span>` : ""}
                 </div>
                 <p class="my-post-excerpt">${escapeHTML(excerpt)}</p>
@@ -606,7 +785,7 @@ function renderMyPosts() {
 
     const currentUser = getCurrentUser();
     if (!currentUser) {
-        container.innerHTML = createPostErrorState("Bạn cần đăng nhập để xem bài viết.", "login.html", "Đăng nhập");
+        container.innerHTML = createPostErrorState("Bạn cần đăng nhập để xem bài viết.", "auth.html?mode=login", "Đăng nhập");
         return;
     }
 
@@ -618,7 +797,10 @@ function renderMyPosts() {
         container.innerHTML = `<div class="empty-state card"><i class="fa-regular fa-pen-to-square"></i><h2>Bạn chưa đăng bài review nào.</h2><a class="button button-primary" href="create-post.html">Tạo bài đầu tiên</a></div>`;
         return;
     }
-    container.innerHTML = posts.map(createMyPostCard).join("");
+    const commentCounts = getCommentCountsByPostId();
+    container.innerHTML = posts.map(function (post) {
+        return createMyPostCard(post, commentCounts);
+    }).join("");
 }
 
 function createPostErrorState(message, href = "../index.html", label = "Về trang chủ") {
@@ -667,6 +849,7 @@ function renderPostDetail(postId) {
             </div>
             ${isOwner ? `<div class="post-owner-actions"><a class="button button-outline" href="edit-post.html?id=${Number(post.id)}">Sửa</a><button class="button button-delete" type="button" data-action="delete" data-post-id="${Number(post.id)}">Xóa</button></div>` : ""}
         </article>
+        ${createCommentsSection(post.id)}
     `;
 }
 
@@ -687,19 +870,90 @@ function setupPostFormValidation() {
 
 function setupImagePreview() {
     const input = document.querySelector("#post-image");
+    const fileInput = document.querySelector("#post-image-file");
     const preview = document.querySelector("#image-preview");
-    if (!input || !preview) return;
+    if (!input || !fileInput || !preview) return;
     const image = preview.querySelector("img");
+    const removeButton = document.querySelector("#remove-post-image");
+    const errorElement = document.querySelector("#post-image-error");
     const form = input.closest("form");
 
-    input.addEventListener("input", function () {
+    function renderPreview() {
         if (!input.value.trim()) {
             preview.hidden = true;
+            image.removeAttribute("src");
             return;
         }
         image.src = resolveImageSource(input.value);
         preview.hidden = false;
+    }
+
+    function setImageError(message) {
+        errorElement.textContent = message || "";
+        fileInput.classList.toggle("is-invalid", Boolean(message));
+    }
+
+    function optimizeImage(file) {
+        return new Promise(function (resolve, reject) {
+            const reader = new FileReader();
+            reader.onerror = function () { reject(new Error("Không thể đọc tệp ảnh.")); };
+            reader.onload = function () {
+                const sourceImage = new Image();
+                sourceImage.onerror = function () { reject(new Error("Tệp đã chọn không phải ảnh hợp lệ.")); };
+                sourceImage.onload = function () {
+                    const maximumDimension = 1400;
+                    const scale = Math.min(1, maximumDimension / Math.max(sourceImage.width, sourceImage.height));
+                    const canvas = document.createElement("canvas");
+                    canvas.width = Math.max(1, Math.round(sourceImage.width * scale));
+                    canvas.height = Math.max(1, Math.round(sourceImage.height * scale));
+                    const context = canvas.getContext("2d");
+                    context.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
+                    const dataUrl = canvas.toDataURL("image/webp", .82);
+                    if (dataUrl.length > 1400000) {
+                        reject(new Error("Ảnh vẫn quá lớn sau khi tối ưu. Vui lòng chọn ảnh nhỏ hơn."));
+                        return;
+                    }
+                    resolve(dataUrl);
+                };
+                sourceImage.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    input.addEventListener("input", renderPreview);
+    fileInput.addEventListener("change", async function () {
+        const file = fileInput.files && fileInput.files[0];
+        setImageError("");
+        if (!file) return;
+        const supportedTypes = ["image/jpeg", "image/png", "image/webp"];
+        if (!supportedTypes.includes(file.type) || !validateImageFile(file)) {
+            fileInput.value = "";
+            setImageError("Vui lòng chọn ảnh JPG, PNG hoặc WebP không quá 2 MB.");
+            return;
+        }
+
+        if (form) form.dataset.imageProcessing = "true";
+        try {
+            input.value = await optimizeImage(file);
+            renderPreview();
+        } catch (error) {
+            fileInput.value = "";
+            setImageError(error.message || "Không thể xử lý ảnh đã chọn.");
+        } finally {
+            if (form) delete form.dataset.imageProcessing;
+        }
     });
+
+    if (removeButton) {
+        removeButton.addEventListener("click", function () {
+            input.value = "";
+            fileInput.value = "";
+            setImageError("");
+            renderPreview();
+        });
+    }
+
     image.addEventListener("error", function () {
         preview.hidden = true;
         image.removeAttribute("src");
@@ -707,6 +961,9 @@ function setupImagePreview() {
 
     if (form) {
         form.addEventListener("reset", function () {
+            input.value = "";
+            fileInput.value = "";
+            setImageError("");
             preview.hidden = true;
             image.removeAttribute("src");
         });
@@ -722,6 +979,10 @@ function setupImagePreview() {
 
 function handlePostFormSubmit(event, postId = null) {
     event.preventDefault();
+    if (event.currentTarget.dataset.imageProcessing === "true") {
+        showToast("Ảnh đang được xử lý, vui lòng đợi một chút.", "info");
+        return;
+    }
     if (!validatePostForm()) {
         const invalidInput = event.currentTarget.querySelector(".is-invalid");
         if (invalidInput) invalidInput.focus();
@@ -735,7 +996,7 @@ function handlePostFormSubmit(event, postId = null) {
 
 function initializeCreatePostPage() {
     if (!getCurrentUser()) {
-        window.location.href = "login.html";
+        window.location.href = "auth.html?mode=login";
         return;
     }
     const form = document.querySelector("#post-form");
@@ -785,6 +1046,12 @@ function initializeMyPostsPage() {
 
 function initializePostDetailPage() {
     renderPostDetail(getPostIdFromUrl());
+    if (window.location.hash === "#comments") {
+        window.setTimeout(function () {
+            const commentsSection = document.querySelector("#comments");
+            if (commentsSection) commentsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 0);
+    }
 }
 
 function initializePostPage() {

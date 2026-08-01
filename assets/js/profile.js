@@ -28,6 +28,10 @@ function calculateProfileStatistics() {
 
 function setProfileAvatar(element, user) {
     if (!element || !user) return;
+    if (typeof setAvatarElement === "function") {
+        setAvatarElement(element, user);
+        return;
+    }
     const initial = String(user.fullname || "U").trim().charAt(0).toUpperCase();
     const avatar = typeof resolveAuthAvatar === "function" ? resolveAuthAvatar(user.avatar) : user.avatar;
     if (avatar) {
@@ -122,6 +126,17 @@ function updateUserPostsAuthorInfo(user) {
     saveData(STORAGE_KEYS.POSTS, updatedPosts);
 }
 
+function updateUserCommentsAuthorInfo(user) {
+    const comments = getData(STORAGE_KEYS.COMMENTS, []);
+    const updatedComments = comments.map(function (comment) {
+        if (Number(comment.userId) === Number(user.id)) {
+            return { ...comment, authorName: user.fullname, authorAvatar: user.avatar };
+        }
+        return comment;
+    });
+    saveData(STORAGE_KEYS.COMMENTS, updatedComments);
+}
+
 function updateProfile(profileData) {
     const currentUser = getCurrentUser();
     const users = getUsers();
@@ -140,6 +155,7 @@ function updateProfile(profileData) {
     saveUsers(users);
     setCurrentUser(user);
     updateUserPostsAuthorInfo(user);
+    updateUserCommentsAuthorInfo(user);
     renderProfile();
     fillProfileForm();
     updateAuthUI();

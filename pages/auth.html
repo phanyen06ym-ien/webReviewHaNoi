@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Đăng nhập hoặc đăng ký Hanoi Food Review để chia sẻ hành trình khám phá ẩm thực Hà Nội.">
+    <title>Xác thực tài khoản | Hanoi Food Review</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/logo/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/auth.css">
+</head>
+<body class="auth-page" data-page="auth">
+    <a class="skip-link" href="#auth-container">Chuyển đến biểu mẫu xác thực</a>
+    <main class="auth-shell">
+        <a class="auth-logo" href="../index.html" aria-label="Hanoi Food Review - Trang chủ">
+            <img src="../assets/images/logo/hanoi-food-review-logo.svg" width="210" height="48" alt="Hanoi Food Review">
+        </a>
+        <section class="auth-container" id="auth-container" aria-label="Đăng nhập hoặc đăng ký">
+            <div class="auth-form-panel auth-login-panel">
+                <div class="auth-panel-content">
+                    <span class="eyebrow">Chào mừng trở lại</span>
+                    <h1>Đăng nhập</h1>
+                    <p class="auth-intro">Tiếp tục chia sẻ những trải nghiệm ẩm thực đáng nhớ.</p>
+                    <form class="auth-form" id="login-form" novalidate>
+                        <div class="form-group">
+                            <label for="login-identifier">Username hoặc email</label>
+                            <input class="form-control" id="login-identifier" name="identifier" autocomplete="username">
+                            <p class="field-error" id="login-identifier-error" aria-live="polite"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Mật khẩu</label>
+                            <div class="password-field">
+                                <input class="form-control" id="login-password" name="password" type="password" autocomplete="current-password">
+                                <button class="password-toggle" type="button" data-password-toggle data-target="login-password" aria-label="Hiện mật khẩu"><i class="fa-regular fa-eye" aria-hidden="true"></i></button>
+                            </div>
+                            <p class="field-error" id="login-password-error" aria-live="polite"></p>
+                        </div>
+                        <label class="checkbox-group" for="login-remember"><input id="login-remember" type="checkbox"> <span>Ghi nhớ đăng nhập trên thiết bị này (mô phỏng)</span></label>
+                        <p class="auth-message" id="login-message" role="alert" aria-live="polite"></p>
+                        <button class="button button-primary auth-submit" type="submit">Đăng nhập</button>
+                    </form>
+                    <div class="demo-accounts"><strong>Tài khoản demo</strong><p>Admin: admin / 123456</p><p>Student: student / 123456</p></div>
+                    <button class="auth-mobile-switch" type="button" data-auth-mode="register">Chưa có tài khoản? <strong>Đăng ký</strong></button>
+                </div>
+            </div>
+
+            <div class="auth-form-panel auth-register-panel">
+                <div class="auth-panel-content">
+                    <span class="eyebrow">Gia nhập cộng đồng</span>
+                    <h1>Tạo tài khoản</h1>
+                    <p class="auth-intro">Lưu quán yêu thích và viết review theo cách của bạn.</p>
+                    <form class="auth-form auth-register-form" id="register-form" novalidate>
+                        <div class="auth-form-grid">
+                            <div class="form-group auth-form-wide"><label for="register-fullname">Họ và tên</label><input class="form-control" id="register-fullname" autocomplete="name"><p class="field-error" id="register-fullname-error" aria-live="polite"></p></div>
+                            <div class="form-group"><label for="register-username">Username</label><input class="form-control" id="register-username" autocomplete="username"><p class="field-error" id="register-username-error" aria-live="polite"></p></div>
+                            <div class="form-group"><label for="register-email">Email</label><input class="form-control" id="register-email" type="email" autocomplete="email"><p class="field-error" id="register-email-error" aria-live="polite"></p></div>
+                            <div class="form-group"><label for="register-password">Mật khẩu</label><div class="password-field"><input class="form-control" id="register-password" type="password" autocomplete="new-password"><button class="password-toggle" type="button" data-password-toggle data-target="register-password" aria-label="Hiện mật khẩu"><i class="fa-regular fa-eye" aria-hidden="true"></i></button></div><p class="field-error" id="register-password-error" aria-live="polite"></p></div>
+                            <div class="form-group"><label for="register-confirm-password">Xác nhận mật khẩu</label><div class="password-field"><input class="form-control" id="register-confirm-password" type="password" autocomplete="new-password"><button class="password-toggle" type="button" data-password-toggle data-target="register-confirm-password" aria-label="Hiện mật khẩu"><i class="fa-regular fa-eye" aria-hidden="true"></i></button></div><p class="field-error" id="register-confirm-password-error" aria-live="polite"></p></div>
+                            <div class="auth-form-wide"><label class="checkbox-group" for="register-agree"><input id="register-agree" type="checkbox"><span>Tôi đồng ý với điều khoản sử dụng mô phỏng.</span></label><p class="field-error" id="register-agree-error" aria-live="polite"></p></div>
+                        </div>
+                        <button class="button button-primary auth-submit" type="submit">Đăng ký</button>
+                    </form>
+                    <button class="auth-mobile-switch" type="button" data-auth-mode="login">Đã có tài khoản? <strong>Đăng nhập</strong></button>
+                </div>
+            </div>
+
+            <div class="auth-overlay-container">
+                <div class="auth-overlay">
+                    <div class="auth-overlay-panel auth-overlay-register">
+                        <img src="../assets/images/logo/hanoi-food-review-mark.svg" width="72" height="72" alt="">
+                        <span class="eyebrow">Hanoi Food Review</span>
+                        <h2>Khám phá Hà Nội cùng chúng tôi</h2>
+                        <p>Tạo tài khoản để viết review, lưu địa điểm và lên kế hoạch cho hành trình tiếp theo.</p>
+                        <button class="button auth-overlay-button" type="button" data-auth-mode="register">Đăng ký ngay</button>
+                    </div>
+                    <div class="auth-overlay-panel auth-overlay-login">
+                        <img src="../assets/images/logo/hanoi-food-review-mark.svg" width="72" height="72" alt="">
+                        <span class="eyebrow">Rất vui được gặp lại</span>
+                        <h2>Bạn đã có tài khoản?</h2>
+                        <p>Đăng nhập để tiếp tục hành trình khám phá những món ngon quanh Hà Nội.</p>
+                        <button class="button auth-overlay-button" type="button" data-auth-mode="login">Đăng nhập</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <a class="auth-home-link" href="../index.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Về trang chủ</a>
+    </main>
+    <div class="toast-container" id="toast-container" aria-live="polite"></div>
+    <script src="../assets/js/storage.js"></script>
+    <script src="../assets/js/validation.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/app.js"></script>
+</body>
+</html>

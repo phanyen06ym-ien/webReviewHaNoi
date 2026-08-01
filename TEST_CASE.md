@@ -55,7 +55,7 @@
 | TC-049 | Statistics | Bài thuộc nhiều năm | Monthly chart tách năm và sắp đúng | Chưa ghi | Chưa chạy |
 | TC-050 | Statistics | Export JSON | Có metadata và đủ storage key | Chưa ghi | Chưa chạy |
 | TC-051 | Statistics | Import file không phải JSON | Từ chối trước khi ghi storage | Chưa ghi | Chưa chạy |
-| TC-052 | Statistics | Import JSON sai schema | Không làm mất dữ liệu cũ | Chưa ghi | Chưa chạy |
+| TC-052 | Statistics | Export JSON | Có posts, comments, tasks và users không chứa password | Chưa ghi | Chưa chạy |
 | TC-053 | Statistics | Import hợp lệ và xác nhận | Dữ liệu/UI cập nhật | Chưa ghi | Chưa chạy |
 | TC-054 | Statistics | Hủy import | Không thay đổi dữ liệu | Chưa ghi | Chưa chạy |
 | TC-055 | UI | Ảnh không tồn tại | Hiện fallback, không có broken icon | Chưa ghi | Chưa chạy |
@@ -67,4 +67,3 @@
 | TC-061 | Browser | Chạy Chrome | Không error/warning/rejection | Chưa ghi | Chưa chạy |
 | TC-062 | Browser | Chạy Edge | Chức năng chính hoạt động | Chưa ghi | Chưa chạy |
 | TC-063 | Browser | Chạy Firefox | Chức năng chính hoạt động | Chưa ghi | Chưa chạy |
-

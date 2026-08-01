@@ -2,6 +2,19 @@
 
 Mọi thay đổi đáng chú ý của Hanoi Food Review được ghi lại tại đây.
 
+## [Unreleased]
+
+### Changed
+
+- Sắp xếp CSS và JavaScript vào `assets/css` và `assets/js` theo cấu trúc yêu cầu môn Cơ sở lập trình Web.
+- Cập nhật đường dẫn tài nguyên mà không thay đổi chức năng hoặc giao diện.
+- Thêm tài liệu đối chiếu yêu cầu và kịch bản báo cáo/bảo vệ.
+
+### Fixed
+
+- Sửa đường dẫn nút bình luận và trang chi tiết khi thao tác từ trang chủ.
+- Sửa cách phân giải đường dẫn ảnh bài viết giữa trang chủ và thư mục `pages`.
+
 ## [1.0.0] - 2026-07-29
 
 ### Added
@@ -30,4 +43,3 @@ Mọi thay đổi đáng chú ý của Hanoi Food Review được ghi lại tạ
 - Thêm strict mode cho toàn bộ JavaScript.
 - Giảm render/event listener dư và debounce tìm kiếm.
 - Chuẩn hóa accessibility và responsive từ 320px đến 1440px.
-

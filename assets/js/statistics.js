@@ -20,6 +20,7 @@ function getStatisticsData() {
     return {
         users: getData(STORAGE_KEYS.USERS, []),
         posts: getData(STORAGE_KEYS.POSTS, []),
+        comments: getData(STORAGE_KEYS.COMMENTS, []),
         tasks: getData(STORAGE_KEYS.TASKS, [])
     };
 }
@@ -28,6 +29,7 @@ function calculateOverviewStatistics(data = getStatisticsData()) {
     const posts = Array.isArray(data.posts) ? data.posts : [];
     const users = Array.isArray(data.users) ? data.users : [];
     const tasks = Array.isArray(data.tasks) ? data.tasks : [];
+    const comments = Array.isArray(data.comments) ? data.comments : [];
 
     return {
         totalPosts: posts.length,
@@ -35,7 +37,8 @@ function calculateOverviewStatistics(data = getStatisticsData()) {
         totalLikes: posts.reduce(function (total, post) { return total + (Number(post.likes) || 0); }, 0),
         totalSavedPosts: posts.filter(function (post) { return post.isSaved === true; }).length,
         totalTasks: tasks.length,
-        completedTasks: tasks.filter(function (task) { return task.status === "Done"; }).length
+        completedTasks: tasks.filter(function (task) { return task.status === "Done"; }).length,
+        totalComments: comments.length
     };
 }
 
@@ -47,7 +50,8 @@ function updateOverviewStatistics() {
         "total-likes-stat": overview.totalLikes,
         "total-saved-stat": overview.totalSavedPosts,
         "total-tasks-stat": overview.totalTasks,
-        "completed-tasks-stat": overview.completedTasks
+        "completed-tasks-stat": overview.completedTasks,
+        "total-comments-stat": overview.totalComments
     };
     Object.entries(fields).forEach(function (entry) {
         const element = document.querySelector(`#${entry[0]}`);
@@ -286,7 +290,6 @@ function initializeStatisticsPage() {
     page.dataset.statisticsInitialized = "true";
     seedInitialData();
     refreshStatisticsPage();
-    if (typeof initializeDataManagement === "function") initializeDataManagement();
 }
 
 document.addEventListener("DOMContentLoaded", function () {

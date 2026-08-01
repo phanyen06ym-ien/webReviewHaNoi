@@ -151,12 +151,12 @@ p {
     place-items: center;
     border-radius: 14px;
     color: var(--text-color);
-    background: var(--primary-color);
-    box-shadow: 0 5px 12px rgba(244, 180, 0, 0.25);
+    background: url("../images/logo/hanoi-food-review-mark.svg") center / contain no-repeat;
+    box-shadow: none;
 }
 
 .brand-mark i {
-    font-size: 20px;
+    display: none;
 }
 
 .brand-text {
@@ -248,6 +248,20 @@ p {
 .auth-sidebar-controls > div {
     display: grid;
     gap: 8px;
+}
+
+.auth-sidebar-controls > [data-auth-visible="guest"] {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+}
+
+.auth-sidebar-controls > [data-auth-visible="guest"] .button {
+    padding: 8px 10px;
+}
+
+.auth-link-separator {
+    color: var(--muted-text);
 }
 
 .auth-sidebar-controls > div[hidden] {
@@ -584,6 +598,27 @@ p {
     animation: toast-slide-in 0.25s ease both;
 }
 
+.toast.toast-has-action {
+    grid-template-columns: 22px minmax(0, 1fr) auto;
+}
+
+.toast-action {
+    padding: 6px 9px;
+    border: 1px solid currentColor;
+    border-radius: 7px;
+    color: inherit;
+    background: rgba(255, 255, 255, .65);
+    cursor: pointer;
+    font: inherit;
+}
+
+.toast-action:hover,
+.toast-action:focus-visible {
+    background: #fff;
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
 .toast-progress {
     position: absolute;
     right: 0;
@@ -804,6 +839,16 @@ p {
 
 .footer-about {
     max-width: 440px;
+}
+
+.footer-brand {
+    display: inline-flex;
+}
+
+.footer-brand img {
+    display: block;
+    width: 176px;
+    height: 40px;
 }
 
 .footer-about strong {

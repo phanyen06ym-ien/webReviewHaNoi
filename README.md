@@ -35,36 +35,38 @@
 ```text
 webReviewHaNoi/
 ├── assets/
+│   ├── css/
+│   │   ├── variables.css
+│   │   ├── style.css
+│   │   ├── responsive.css
+│   │   └── *.css
+│   ├── js/
+│   │   ├── storage.js
+│   │   ├── validation.js
+│   │   ├── tasks.js
+│   │   ├── posts.js
+│   │   ├── auth.js
+│   │   └── *.js
 │   ├── icons/
 │   └── images/
 │       ├── avatars/
+│       ├── banners/
+│       ├── logo/
 │       ├── posts/
-│       └── restaurants/
-├── css/
-│   ├── variables.css
-│   ├── style.css
-│   ├── responsive.css
-│   └── *.css
-├── js/
-│   ├── storage.js
-│   ├── validation.js
-│   ├── posts.js
-│   ├── tasks.js
-│   ├── auth.js
-│   ├── profile.js
-│   ├── statistics.js
-│   ├── search.js
-│   ├── saved.js
-│   ├── export-import.js
-│   └── app.js
 ├── pages/
+│   ├── tasks.html
+│   ├── statistics.html
+│   └── *.html
 ├── index.html
+├── BAO_CAO_BAO_VE.md
 ├── TEST_CASE.md
 ├── CHANGELOG.md
 └── LICENSE
 ```
 
-`style.css` hiện đóng vai trò base, component và layout dùng chung; các file CSS còn lại chỉ chứa giao diện đặc thù từng trang.
+`assets/css/style.css` đóng vai trò base, component và layout dùng chung; các file CSS còn lại chỉ chứa giao diện đặc thù từng trang. `assets/js/storage.js` phụ trách LocalStorage, `validation.js` phụ trách kiểm tra dữ liệu, còn các file như `tasks.js`, `posts.js`, `auth.js` tách logic theo từng module chức năng.
+
+Xem [BAO_CAO_BAO_VE.md](BAO_CAO_BAO_VE.md) để đối chiếu yêu cầu của giảng viên, luồng xử lý CRUD và kịch bản demo 3 phút.
 
 ## Hướng dẫn chạy
 
@@ -130,7 +132,7 @@ Các placeholder dưới đây có thể được thay bằng ảnh chụp trư�
 
 - Không có backend; dữ liệu chỉ tồn tại trong trình duyệt hiện tại.
 - Password được lưu dạng rõ trong LocalStorage để phục vụ bài tập, không phù hợp production.
-- Upload ảnh chỉ là mô phỏng bằng đường dẫn hoặc dữ liệu cục bộ có giới hạn kích thước.
+- Ảnh tải từ máy được tối ưu và lưu dạng dữ liệu cục bộ nên vẫn chịu giới hạn dung lượng LocalStorage của trình duyệt.
 - Chart.js, Font Awesome và Google Fonts cần kết nối mạng; UI có fallback khi Chart.js không tải.
 - Import/export có thể chứa dữ liệu demo và không thay thế cơ chế backup production.
 

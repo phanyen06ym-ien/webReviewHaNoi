@@ -5,6 +5,61 @@
  * Quản lý toàn bộ chức năng CRUD của kế hoạch khám phá quán.
  */
 
+let pendingTaskUndo = null;
+let pendingTaskUndoTimer = null;
+
+function clearPendingTaskUndo() {
+    window.clearTimeout(pendingTaskUndoTimer);
+    pendingTaskUndoTimer = null;
+    if (pendingTaskUndo && pendingTaskUndo.toast) pendingTaskUndo.toast.close();
+    pendingTaskUndo = null;
+}
+
+function scheduleTaskUndo(deletion) {
+    clearPendingTaskUndo();
+    pendingTaskUndo = deletion;
+    pendingTaskUndoTimer = window.setTimeout(function () {
+        pendingTaskUndo = null;
+        pendingTaskUndoTimer = null;
+    }, 10000);
+    pendingTaskUndo.toast = showToast({
+        message: deletion.type === "all" ? "Đã xóa tất cả kế hoạch." : "Đã xóa kế hoạch.",
+        type: "warning",
+        duration: 10000,
+        actionText: "Hoàn tác",
+        actionLabel: "Hoàn tác xóa kế hoạch",
+        onAction: undoLastTaskDeletion
+    });
+}
+
+function undoLastTaskDeletion() {
+    if (!pendingTaskUndo) return false;
+    const deletion = pendingTaskUndo;
+    window.clearTimeout(pendingTaskUndoTimer);
+    pendingTaskUndo = null;
+    pendingTaskUndoTimer = null;
+    const currentTasks = getTasks();
+    const currentIds = new Set(currentTasks.map(function (task) { return Number(task.id); }));
+
+    if (deletion.type === "single") {
+        const task = deletion.items[0];
+        if (!currentIds.has(Number(task.id))) {
+            const safeIndex = Math.min(Math.max(deletion.originalIndexes[0], 0), currentTasks.length);
+            currentTasks.splice(safeIndex, 0, task);
+        }
+    } else {
+        const restoredTasks = deletion.items.filter(function (task) {
+            return !currentIds.has(Number(task.id));
+        });
+        currentTasks.unshift(...restoredTasks);
+    }
+
+    saveTasks(currentTasks);
+    refreshTaskPage();
+    showToast("Đã khôi phục kế hoạch.", "success");
+    return true;
+}
+
 function getTasks() {
     const tasks = getData(STORAGE_KEYS.TASKS, []);
     return Array.isArray(tasks) ? tasks : [];
@@ -71,7 +126,9 @@ function updateTask(taskId, taskData) {
 }
 
 async function deleteTask(taskId) {
-    const task = getTaskById(taskId);
+    const tasks = getTasks();
+    const originalIndex = tasks.findIndex(function (item) { return Number(item.id) === Number(taskId); });
+    const task = originalIndex >= 0 ? tasks[originalIndex] : null;
 
     if (!task) {
         showToast("Không tìm thấy kế hoạch cần xóa", "error");
@@ -80,7 +137,7 @@ async function deleteTask(taskId) {
 
     const shouldDelete = await showConfirmModal({
         title: "Xóa kế hoạch?",
-        message: "Kế hoạch này sẽ bị xóa vĩnh viễn và không thể hoàn tác.",
+        message: "Bạn có thể hoàn tác thao tác này trong 10 giây.",
         confirmText: "Xóa kế hoạch",
         danger: true
     });
@@ -89,13 +146,18 @@ async function deleteTask(taskId) {
         return;
     }
 
-    const remainingTasks = getTasks().filter(function (item) {
+    const remainingTasks = tasks.filter(function (item) {
         return Number(item.id) !== Number(taskId);
     });
 
     saveTasks(remainingTasks);
     refreshTaskPage();
-    showToast("Đã xóa kế hoạch", "success");
+    scheduleTaskUndo({
+        type: "single",
+        items: [{ ...task }],
+        originalIndexes: [originalIndex],
+        deletedAt: Date.now()
+    });
 }
 
 function toggleTaskStatus(taskId) {
@@ -404,7 +466,7 @@ async function clearAllTasks() {
 
     const shouldClear = await showConfirmModal({
         title: "Xóa toàn bộ kế hoạch?",
-        message: "Tất cả kế hoạch sẽ bị xóa và không thể hoàn tác.",
+        message: "Bạn có thể hoàn tác thao tác này trong 10 giây.",
         confirmText: "Xóa tất cả",
         danger: true
     });
@@ -416,7 +478,12 @@ async function clearAllTasks() {
     // Lưu mảng rỗng thay vì xóa key để seed không tạo lại dữ liệu sau refresh.
     saveTasks([]);
     refreshTaskPage();
-    showToast("Đã xóa toàn bộ kế hoạch", "success");
+    scheduleTaskUndo({
+        type: "all",
+        items: tasks.map(function (task) { return { ...task }; }),
+        originalIndexes: tasks.map(function (_, index) { return index; }),
+        deletedAt: Date.now()
+    });
 }
 
 function updateTaskStatistics() {
@@ -510,11 +577,6 @@ function initializeTaskEvents() {
         }
     });
 
-    document.querySelectorAll(".future-feature").forEach(function (button) {
-        button.addEventListener("click", function () {
-            showToast(`${button.dataset.feature} sẽ hoàn thiện ở giai đoạn tiếp theo`, "info");
-        });
-    });
 }
 
 function initializeTaskPage() {

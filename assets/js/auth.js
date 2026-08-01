@@ -114,7 +114,7 @@ async function logoutUser() {
     updateAuthUI();
     if (typeof showToast === "function") showToast("Đăng xuất thành công.", "success");
     window.setTimeout(function () {
-        window.location.href = getPagePrefix() + "login.html";
+        window.location.href = getPagePrefix() + "auth.html?mode=login";
     }, 300);
     return true;
 }
@@ -129,7 +129,7 @@ function getSafeRedirect() {
     if (!redirect) return "";
     const cleanRedirect = redirect.trim().replace(/\\/g, "/");
     if (/^(?:https?:)?\/\//i.test(cleanRedirect) || cleanRedirect.includes("..")) return "";
-    if (cleanRedirect === "index.html" || /^[a-z0-9-]+\.html(?:\?[^#]*)?$/i.test(cleanRedirect)) {
+    if (cleanRedirect === "index.html" || /^[a-z0-9-]+\.html(?:\?[^#]*)?(?:#[a-z0-9_-]+)?$/i.test(cleanRedirect)) {
         return cleanRedirect;
     }
     return "";
@@ -143,8 +143,8 @@ function requireLogin(redirectPage) {
     const pageName = /^[a-z0-9-]+\.html(?:\?[^#]*)?$/i.test(requestedPage) && !requestedPage.includes("..")
         ? requestedPage
         : "index.html";
-    const loginPath = getPagePrefix() + "login.html";
-    window.location.replace(loginPath + "?redirect=" + encodeURIComponent(pageName));
+    const loginPath = getPagePrefix() + "auth.html?mode=login";
+    window.location.replace(loginPath + "&redirect=" + encodeURIComponent(pageName));
     return false;
 }
 
@@ -152,29 +152,51 @@ function setAvatarElement(element, user) {
     if (!element) return;
     const fallback = String(user && user.fullname || "Khách").trim().charAt(0).toUpperCase() || "K";
     const avatar = resolveAuthAvatar(user && user.avatar);
+    element.textContent = fallback;
+    element.style.backgroundImage = "";
     if (avatar) {
-        element.textContent = "";
-        element.style.backgroundImage = `url("${String(avatar).replace(/["\\]/g, "")}")`;
-        element.style.backgroundSize = "cover";
-        element.style.backgroundPosition = "center";
-    } else {
-        element.style.backgroundImage = "";
-        element.textContent = fallback;
+        const requestId = String(Date.now()) + Math.random();
+        element.dataset.avatarRequest = requestId;
+        const image = new Image();
+        image.onload = function () {
+            if (element.dataset.avatarRequest !== requestId) return;
+            element.textContent = "";
+            element.style.backgroundImage = `url("${String(avatar).replace(/["\\]/g, "")}")`;
+            element.style.backgroundSize = "cover";
+            element.style.backgroundPosition = "center";
+        };
+        image.onerror = function () {
+            if (element.dataset.avatarRequest !== requestId) return;
+            const defaultAvatar = resolveAuthAvatar("assets/images/avatars/default-avatar.svg");
+            element.style.backgroundImage = `url("${defaultAvatar}")`;
+            element.style.backgroundSize = "cover";
+            element.style.backgroundPosition = "center";
+            element.textContent = "";
+        };
+        image.src = avatar;
     }
 }
 
 function updateAuthUI() {
     const user = getCurrentUser();
-    const accountContainer = document.querySelector(".sidebar-account");
-    if (accountContainer && !accountContainer.querySelector(".auth-sidebar-controls")
-        && !accountContainer.querySelector("[data-auth-action='logout']")) {
+    const sidebarInner = document.querySelector(".left-sidebar .sidebar-inner");
+    let accountContainer = document.querySelector(".sidebar-account");
+    if (!accountContainer && sidebarInner) {
+        accountContainer = document.createElement("div");
+        accountContainer.className = "sidebar-account";
+        sidebarInner.appendChild(accountContainer);
+    }
+    if (accountContainer && !accountContainer.querySelector(".auth-sidebar-controls")) {
+        accountContainer.querySelectorAll(":scope > a[href*='login'], :scope > a[href*='register'], :scope > [data-auth-action='logout']")
+            .forEach(function (legacyControl) { legacyControl.remove(); });
         const prefix = getPagePrefix();
         const controls = document.createElement("div");
         controls.className = "auth-sidebar-controls";
         controls.innerHTML = `
             <div data-auth-visible="guest">
-                <a class="button button-primary button-full" href="${prefix}login.html">Đăng nhập</a>
-                <a class="auth-register-link" href="${prefix}register.html">Đăng ký tài khoản</a>
+                <a class="button button-primary button-full" href="${prefix}auth.html?mode=login">Đăng nhập</a>
+                <span class="auth-link-separator" aria-hidden="true">|</span>
+                <a class="auth-register-link" href="${prefix}auth.html?mode=register">Đăng ký</a>
             </div>
             <div data-auth-visible="user" hidden>
                 <a class="button button-outline button-full" href="${prefix}profile.html">Hồ sơ</a>
@@ -194,7 +216,12 @@ function updateAuthUI() {
     setAvatarElement(document.querySelector("#sidebar-user-avatar"), user);
     const mobileAvatar = document.querySelector("#mobile-user-avatar") || document.querySelector(".mobile-account");
     setAvatarElement(mobileAvatar, user);
-    if (mobileAvatar) mobileAvatar.setAttribute("aria-label", user ? `Hồ sơ của ${user.fullname}` : "Đăng nhập");
+    if (mobileAvatar) {
+        mobileAvatar.setAttribute("aria-label", user ? `Hồ sơ của ${user.fullname}` : "Đăng nhập");
+        if (mobileAvatar.matches("a")) {
+            mobileAvatar.href = user ? getPagePrefix() + "profile.html" : getPagePrefix() + "auth.html?mode=login";
+        }
+    }
     setAvatarElement(document.querySelector("#quick-post-avatar"), user);
     if (sidebarName) sidebarName.textContent = user ? user.fullname : "Khách";
     if (sidebarUsername) sidebarUsername.textContent = user ? "@" + user.username : "";
@@ -358,6 +385,55 @@ function initializeLoginPage() {
     });
 }
 
+function setAuthMode(mode, shouldFocus = false) {
+    const container = document.querySelector("#auth-container");
+    if (!container) return;
+    const isRegisterMode = mode === "register";
+    container.classList.toggle("is-register-mode", isRegisterMode);
+    document.title = `${isRegisterMode ? "Đăng ký" : "Đăng nhập"} | Hanoi Food Review`;
+
+    const url = new URL(window.location.href);
+    url.searchParams.set("mode", isRegisterMode ? "register" : "login");
+    window.history.replaceState({}, "", url);
+
+    container.querySelectorAll(".auth-form-panel").forEach(function (panel) {
+        const isActive = panel.classList.contains(isRegisterMode ? "auth-register-panel" : "auth-login-panel");
+        panel.setAttribute("aria-hidden", String(!isActive));
+        panel.querySelectorAll("input, button").forEach(function (control) {
+            if (isActive) control.removeAttribute("tabindex");
+            else control.setAttribute("tabindex", "-1");
+        });
+    });
+    container.querySelectorAll(".auth-overlay-panel").forEach(function (panel) {
+        const isActive = panel.classList.contains(isRegisterMode ? "auth-overlay-login" : "auth-overlay-register");
+        panel.setAttribute("aria-hidden", String(!isActive));
+        const switchButton = panel.querySelector("[data-auth-mode]");
+        if (switchButton) {
+            if (isActive) switchButton.removeAttribute("tabindex");
+            else switchButton.setAttribute("tabindex", "-1");
+        }
+    });
+
+    if (shouldFocus) {
+        const target = document.querySelector(isRegisterMode ? "#register-fullname" : "#login-identifier");
+        if (target) window.setTimeout(function () { target.focus(); }, 0);
+    }
+}
+
+function initializeCombinedAuthPage() {
+    const container = document.querySelector("#auth-container");
+    if (!container || container.dataset.initialized === "true") return;
+    container.dataset.initialized = "true";
+    initializeLoginPage();
+    initializeRegisterPage();
+    container.addEventListener("click", function (event) {
+        const switchButton = event.target.closest("[data-auth-mode]");
+        if (switchButton) setAuthMode(switchButton.dataset.authMode, true);
+    });
+    const requestedMode = new URLSearchParams(window.location.search).get("mode");
+    setAuthMode(requestedMode === "register" ? "register" : "login");
+}
+
 function initializeAuthEvents() {
     if (document.body.dataset.authEventsInitialized === "true") return;
     document.body.dataset.authEventsInitialized = "true";
@@ -376,8 +452,7 @@ function initializeAuth() {
     initializeAuthEvents();
     updateAuthUI();
     const pageName = document.body.dataset.page;
-    if (pageName === "login") initializeLoginPage();
-    if (pageName === "register") initializeRegisterPage();
+    if (pageName === "auth") initializeCombinedAuthPage();
 }
 
 document.addEventListener("DOMContentLoaded", initializeAuth);

@@ -23,6 +23,10 @@
 }
 
 @media (max-width: 768px) {
+    body.menu-open .mobile-account {
+        visibility: hidden;
+    }
+
     .mobile-header {
         position: sticky;
         z-index: 900;
@@ -123,17 +127,14 @@
     }
 
     .welcome-banner {
-        min-height: 165px;
-        padding: 24px;
+        min-height: 320px;
+        padding: 36px;
     }
 
     .welcome-banner h1 {
         font-size: 27px;
     }
 
-    .welcome-illustration {
-        font-size: 58px;
-    }
 }
 
 @media (max-width: 520px) {
@@ -145,9 +146,10 @@
     }
 
     .welcome-banner {
-        min-height: 180px;
+        min-height: 300px;
         align-items: flex-start;
-        padding: 22px 20px;
+        padding: 32px 22px;
+        background-position: 58% center;
     }
 
     .welcome-banner h1 {
@@ -158,14 +160,6 @@
     .welcome-banner p {
         max-width: 270px;
         font-size: 13px;
-    }
-
-    .welcome-illustration {
-        position: absolute;
-        right: 6px;
-        bottom: 4px;
-        padding: 0;
-        font-size: 46px;
     }
 
     .quick-post {

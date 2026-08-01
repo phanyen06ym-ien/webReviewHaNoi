@@ -4,11 +4,12 @@
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Tạo bài review quán ăn và quán cà phê tại Hà Nội.">
     <title>Tạo bài review | Hanoi Food Review</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/logo/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="../css/style.css"><link rel="stylesheet" href="../css/post.css"><link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="../assets/css/post.css"><link rel="stylesheet" href="../assets/css/responsive.css">
 </head>
 <body data-page="create-post" data-require-auth="true">
     <header class="mobile-header">
@@ -22,10 +23,11 @@
             <a class="brand" href="../index.html"><span class="brand-mark"><i class="fa-solid fa-bowl-food"></i></span><span class="brand-text"><strong>Hanoi Food</strong><small>Review</small></span></a>
             <nav class="main-navigation">
                 <a class="nav-link" href="../index.html"><i class="fa-solid fa-house"></i><span>Trang chủ</span></a>
-                <a class="nav-link active" href="create-post.html"><i class="fa-solid fa-square-plus"></i><span>Tạo bài review</span></a>
-                <a class="nav-link" href="my-posts.html"><i class="fa-regular fa-pen-to-square"></i><span>Bài viết của tôi</span></a>
+                <a class="nav-link" href="explore.html"><i class="fa-solid fa-compass"></i><span>Khám phá</span></a>
                 <a class="nav-link" href="tasks.html"><i class="fa-solid fa-calendar-check"></i><span>Kế hoạch đi quán</span></a>
+                <a class="nav-link" href="my-posts.html"><i class="fa-regular fa-pen-to-square"></i><span>Bài viết của tôi</span></a>
                 <a class="nav-link" href="saved.html"><i class="fa-regular fa-bookmark"></i><span>Đã lưu</span></a>
+                <a class="nav-link" href="statistics.html"><i class="fa-solid fa-chart-column"></i><span>Thống kê</span></a>
             </nav>
             <div class="sidebar-account"><div class="account-summary"><span class="avatar avatar-small" id="sidebar-user-avatar">K</span><span><strong id="sidebar-user-name">Khách</strong><small id="sidebar-user-status">Chưa đăng nhập</small></span></div></div>
         </div></aside>
@@ -45,7 +47,7 @@
                     </div>
                     <div class="form-section"><h2>Nội dung review</h2>
                         <div class="form-group"><label for="post-content">Cảm nhận của bạn *</label><textarea id="post-content" rows="7" maxlength="1500"></textarea><p class="field-error" id="post-content-error"></p></div>
-                        <div class="form-group"><label for="post-image">Đường dẫn ảnh</label><input id="post-image" type="text" placeholder="../assets/images/posts/ten-anh.jpg"><p class="form-hint">Ảnh được lưu bằng đường dẫn để phù hợp giới hạn LocalStorage.</p><p class="field-error" id="post-image-error"></p><div class="image-preview" id="image-preview" hidden><img alt="Xem trước ảnh review"></div></div>
+                        <div class="form-group"><span class="image-field-label">Ảnh bài review</span><input id="post-image" type="hidden"><input class="image-file-input visually-hidden" id="post-image-file" type="file" accept="image/jpeg,image/png,image/webp"><label class="button button-primary image-upload-button" for="post-image-file"><i class="fa-solid fa-upload" aria-hidden="true"></i> Tải ảnh</label><p class="field-error" id="post-image-error"></p><div class="image-preview" id="image-preview" hidden><img alt="Xem trước ảnh review"><button class="button button-outline image-remove-button" id="remove-post-image" type="button">Bỏ ảnh</button></div></div>
                         <div class="form-group"><label for="post-hashtags">Hashtag</label><input id="post-hashtags" type="text" placeholder="CafeHaNoi, HaDong, CafeHocTap"><p class="form-hint">Tối đa 5 hashtag, phân cách bằng dấu phẩy.</p><p class="field-error" id="post-hashtags-error"></p></div>
                     </div>
                     <div class="form-actions"><a class="button button-outline post-cancel-link" href="../index.html">Hủy</a><button class="button button-primary" type="submit"><i class="fa-solid fa-paper-plane"></i> Đăng bài</button></div>
@@ -55,6 +57,6 @@
         </main>
     </div>
     <div class="toast-container" id="toast-container" aria-live="polite"></div>
-    <script src="../js/storage.js"></script><script src="../js/validation.js"></script><script src="../js/auth.js"></script><script src="../js/posts.js"></script><script src="../js/app.js"></script>
+    <script src="../assets/js/storage.js"></script><script src="../assets/js/validation.js"></script><script src="../assets/js/auth.js"></script><script src="../assets/js/posts.js"></script><script src="../assets/js/app.js"></script>
 </body>
 </html>

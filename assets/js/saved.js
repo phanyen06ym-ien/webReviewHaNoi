@@ -48,7 +48,10 @@ function renderSavedPosts(postsToRender) {
         return;
     }
 
-    container.innerHTML = posts.map(createPostCard).join("");
+    const commentCounts = getCommentCountsByPostId();
+    container.innerHTML = posts.map(function (post) {
+        return createPostCard(post, commentCounts);
+    }).join("");
 }
 
 function updateSavedPostCount(count) {

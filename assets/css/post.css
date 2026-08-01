@@ -120,6 +120,18 @@
     font-size: 12px;
 }
 
+.image-field-label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 700;
+}
+
+.image-upload-button {
+    display: inline-flex;
+    width: fit-content;
+    margin-bottom: 0;
+}
+
 .field-error {
     min-height: 19px;
     margin: 3px 0 0;
@@ -141,6 +153,11 @@
     width: 100%;
     max-height: 330px;
     object-fit: cover;
+}
+
+.image-remove-button {
+    width: 100%;
+    margin-top: 8px;
 }
 
 .form-actions,
@@ -318,6 +335,160 @@
     background: #fffdf7;
 }
 
+.comments-section {
+    padding: 24px;
+    margin-top: 20px;
+    scroll-margin-top: 24px;
+}
+
+.comments-heading,
+.comment-header,
+.comment-form-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.comments-heading {
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.comments-heading h2 {
+    font-size: 22px;
+}
+
+.comments-heading > span,
+.comment-header time,
+.comment-form-meta {
+    color: var(--muted-text);
+    font-size: 12px;
+}
+
+.comment-form {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 12px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.comment-avatar-image {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    object-fit: cover;
+}
+
+.comment-form-body {
+    min-width: 0;
+}
+
+.comment-form-body label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.comment-form textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 11px 12px;
+    resize: vertical;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    outline: none;
+}
+
+.comment-form textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(244, 180, 0, .15);
+}
+
+.comment-form-meta .field-error {
+    margin-right: auto;
+}
+
+.comment-list {
+    display: grid;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.comment-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) 34px;
+    gap: 12px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.comment-item:last-child {
+    border-bottom: 0;
+}
+
+.comment-content {
+    min-width: 0;
+}
+
+.comment-content p {
+    margin-top: 6px;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.comment-header > span {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.comment-header strong {
+    overflow-wrap: anywhere;
+}
+
+.comment-owner-badge {
+    padding: 2px 7px;
+    border-radius: 999px;
+    color: #725300;
+    background: var(--primary-light);
+    font-weight: 700;
+}
+
+.comment-delete-button {
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 8px;
+    color: var(--danger-color);
+    background: transparent;
+    cursor: pointer;
+}
+
+.comment-delete-button:hover,
+.comment-delete-button:focus-visible {
+    background: #fff0f2;
+    outline: 2px solid var(--danger-color);
+}
+
+.comment-empty-state,
+.comment-login-prompt {
+    padding: 26px 12px 8px;
+    color: var(--muted-text);
+    text-align: center;
+}
+
+.comment-login-prompt .button {
+    margin-top: 12px;
+}
+
 .back-link {
     display: inline-flex;
     align-items: center;
@@ -396,6 +567,34 @@
     .form-actions .button,
     .my-post-actions .button,
     .post-owner-actions .button {
+        width: 100%;
+    }
+
+    .comments-section {
+        padding: 17px 15px;
+    }
+
+    .comment-form {
+        grid-template-columns: 34px minmax(0, 1fr);
+    }
+
+    .comment-avatar-image {
+        width: 34px;
+        height: 34px;
+    }
+
+    .comment-item {
+        grid-template-columns: 34px minmax(0, 1fr) 32px;
+        gap: 9px;
+    }
+
+    .comment-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .comment-form .button {
         width: 100%;
     }
 }

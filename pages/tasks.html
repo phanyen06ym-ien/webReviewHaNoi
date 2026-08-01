@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Quản lý kế hoạch khám phá quán ăn và quán cà phê tại Hà Nội.">
     <title>Kế hoạch khám phá quán | Hanoi Food Review</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/logo/favicon.svg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/tasks.css">
-    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/tasks.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
 </head>
 <body data-page="tasks">
     <a class="skip-link" href="#main-content">Chuyển đến nội dung chính</a>
@@ -48,7 +49,6 @@
                     <a class="nav-link" href="my-posts.html"><i class="fa-regular fa-pen-to-square" aria-hidden="true"></i><span>Bài viết của tôi</span></a>
                     <a class="nav-link" href="saved.html"><i class="fa-regular fa-bookmark" aria-hidden="true"></i><span>Đã lưu</span></a>
                     <a class="nav-link" href="statistics.html"><i class="fa-solid fa-chart-column" aria-hidden="true"></i><span>Thống kê</span></a>
-                    <a class="nav-link" href="profile.html"><i class="fa-regular fa-user" aria-hidden="true"></i><span>Hồ sơ</span></a>
                 </nav>
 
                 <div class="sidebar-account">
@@ -59,7 +59,7 @@
                             <small id="sidebar-user-status">Chưa đăng nhập</small>
                         </span>
                     </div>
-                    <a class="button button-outline button-full" href="login.html">
+                    <a class="button button-outline button-full" href="auth.html?mode=login">
                         <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i> Đăng nhập
                     </a>
                 </div>
@@ -171,11 +171,8 @@
                     <button class="button button-danger" id="clear-all-tasks" type="button">
                         <i class="fa-regular fa-trash-can" aria-hidden="true"></i> Xóa tất cả
                     </button>
-                    <button class="button button-outline future-feature" type="button" data-feature="Export JSON">
+                    <button class="button button-outline" id="export-tasks-button" type="button">
                         <i class="fa-solid fa-file-export" aria-hidden="true"></i> Export JSON
-                    </button>
-                    <button class="button button-outline future-feature" type="button" data-feature="Import JSON">
-                        <i class="fa-solid fa-file-import" aria-hidden="true"></i> Import JSON
                     </button>
                 </div>
             </section>
@@ -269,10 +266,11 @@
     </div>
 
     <div class="toast-container" id="toast-container" aria-live="polite"></div>
-    <script src="../js/storage.js"></script>
-    <script src="../js/validation.js"></script>
-    <script src="../js/auth.js"></script>
-    <script src="../js/tasks.js"></script>
-    <script src="../js/app.js"></script>
+    <script src="../assets/js/storage.js"></script>
+    <script src="../assets/js/validation.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/tasks.js"></script>
+    <script src="../assets/js/export-data.js"></script>
+    <script src="../assets/js/app.js"></script>
 </body>
 </html>

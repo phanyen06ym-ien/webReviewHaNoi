@@ -9,6 +9,7 @@ const STORAGE_KEYS = {
     USERS: "hanoi_food_users",
     CURRENT_USER: "hanoi_food_current_user",
     POSTS: "hanoi_food_posts",
+    COMMENTS: "hanoi_food_comments",
     TASKS: "hanoi_food_tasks",
     SAVED_POSTS: "hanoi_food_saved_posts",
     THEME: "hanoi_food_theme"
@@ -94,7 +95,7 @@ function getInitialPosts() {
             address: "Tô Hiệu, Hà Đông, Hà Nội",
             rating: 4,
             content: "Không gian rộng, có nhiều ổ cắm và phù hợp học nhóm vào buổi chiều.",
-            image: "assets/images/posts/post-placeholder.svg",
+            image: "assets/images/posts/cafe-study.jpg",
             hashtags: ["CafeHaNoi", "HaDong", "CafeHocTap"],
             likes: 12,
             likedByCurrentUser: false,
@@ -114,7 +115,7 @@ function getInitialPosts() {
             address: "Hàng Mành, Hoàn Kiếm, Hà Nội",
             rating: 5,
             content: "Thịt nướng thơm, nước chấm vừa vị và suất ăn khá đầy đặn cho một buổi trưa.",
-            image: "assets/images/posts/post-placeholder.svg",
+            image: "assets/images/posts/bun-cha.jpg",
             hashtags: ["BunCha", "HoanKiem", "AnNgonHaNoi"],
             likes: 28,
             likedByCurrentUser: true,
@@ -134,7 +135,7 @@ function getInitialPosts() {
             address: "Ngõ Huyện, Đống Đa, Hà Nội",
             rating: 4,
             content: "Cháo mịn, sườn mềm và quẩy giòn, quán mở muộn nên rất tiện cho những hôm học về khuya.",
-            image: "assets/images/posts/post-placeholder.svg",
+            image: "assets/images/posts/chao-suon.jpg",
             hashtags: ["AnDemHaNoi", "DongDa", "QuanSinhVien"],
             likes: 19,
             likedByCurrentUser: false,
@@ -154,7 +155,7 @@ function getInitialPosts() {
             address: "Ngụy Như Kon Tum, Thanh Xuân, Hà Nội",
             rating: 5,
             content: "Không gian thoáng, nhiều góc chụp ảnh và đồ uống dễ uống, phù hợp đi cùng bạn bè.",
-            image: "assets/images/posts/post-placeholder.svg",
+            image: "assets/images/posts/rooftop-cafe.jpg",
             hashtags: ["CafeHaNoi", "ThanhXuan", "CafeSongAo"],
             likes: 35,
             likedByCurrentUser: false,
@@ -174,7 +175,7 @@ function getInitialPosts() {
             address: "Ngũ Xã, Ba Đình, Hà Nội",
             rating: 4,
             content: "Nước dùng trong và thơm, thịt mềm, phục vụ nhanh dù quán khá đông vào buổi sáng.",
-            image: "assets/images/posts/post-placeholder.svg",
+            image: "assets/images/posts/pho-cuon.jpg",
             hashtags: ["PhoHaNoi", "BaDinh", "AnNgonHaNoi"],
             likes: 22,
             likedByCurrentUser: false,
@@ -194,7 +195,7 @@ function getInitialPosts() {
             address: "Trần Thái Tông, Cầu Giấy, Hà Nội",
             rating: 5,
             content: "Bánh trình bày đẹp, vị ngọt vừa phải và có khu vực ngồi lại khá yên tĩnh, sáng sủa.",
-            image: "assets/images/posts/post-placeholder.svg",
+            image: "assets/images/posts/pastry-cafe.jpg",
             hashtags: ["TiemBanh", "CauGiay", "QuanSinhVien"],
             likes: 31,
             likedByCurrentUser: false,
@@ -278,6 +279,10 @@ function seedInitialData() {
         saveData(STORAGE_KEYS.TASKS, getInitialTasks());
     }
 
+    if (localStorage.getItem(STORAGE_KEYS.COMMENTS) === null) {
+        saveData(STORAGE_KEYS.COMMENTS, []);
+    }
+
     if (localStorage.getItem(STORAGE_KEYS.SAVED_POSTS) === null) {
         saveData(STORAGE_KEYS.SAVED_POSTS, [3, 6]);
     }
@@ -292,6 +297,27 @@ function seedInitialData() {
     });
     if (usersChanged) {
         saveData(STORAGE_KEYS.USERS, users);
+    }
+
+    const seededPostImages = [
+        "assets/images/posts/cafe-study.jpg",
+        "assets/images/posts/bun-cha.jpg",
+        "assets/images/posts/chao-suon.jpg",
+        "assets/images/posts/rooftop-cafe.jpg",
+        "assets/images/posts/pho-cuon.jpg",
+        "assets/images/posts/pastry-cafe.jpg"
+    ];
+    const posts = getData(STORAGE_KEYS.POSTS, []);
+    let postsChanged = false;
+    posts.forEach(function (post) {
+        const seededImage = seededPostImages[Number(post.id) - 1];
+        if (seededImage && post.image === "assets/images/posts/post-placeholder.svg") {
+            post.image = seededImage;
+            postsChanged = true;
+        }
+    });
+    if (postsChanged) {
+        saveData(STORAGE_KEYS.POSTS, posts);
     }
 
     // Phiên đăng nhập chỉ giữ thông tin công khai, tuyệt đối không sao chép password.

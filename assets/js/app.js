@@ -87,7 +87,9 @@ function initializeUnifiedFooter() {
     footer.innerHTML = `
         <div class="footer-content">
             <div class="footer-about">
-                <strong><i class="fa-solid fa-bowl-food" aria-hidden="true"></i> Hanoi Food Review</strong>
+                <a class="footer-brand" href="${document.body.dataset.page === "home" ? "index.html" : "../index.html"}">
+                    <img src="${document.body.dataset.page === "home" ? "assets/" : "../assets/"}images/logo/hanoi-food-review-logo.svg" width="176" height="40" alt="Hanoi Food Review">
+                </a>
                 <p>Cộng đồng chia sẻ trải nghiệm ẩm thực và quán cà phê tại Hà Nội.</p>
             </div>
             <nav aria-label="Liên kết chân trang">
@@ -131,7 +133,11 @@ async function runWithDelayedSkeleton(container, taskCallback, renderResult, cou
     }
 }
 
-function showToast(message, type = "info") {
+function showToast(messageOrOptions, type = "info") {
+    const options = typeof messageOrOptions === "object" && messageOrOptions !== null
+        ? messageOrOptions
+        : { message: messageOrOptions, type };
+    const message = String(options.message || "");
     let toastContainer = document.querySelector("#toast-container");
 
     if (!toastContainer) {
@@ -143,7 +149,7 @@ function showToast(message, type = "info") {
     }
 
     const allowedTypes = ["success", "error", "warning", "info"];
-    const toastType = allowedTypes.includes(type) ? type : "info";
+    const toastType = allowedTypes.includes(options.type) ? options.type : "info";
     const icons = {
         success: "fa-circle-check",
         error: "fa-circle-xmark",
@@ -161,13 +167,29 @@ function showToast(message, type = "info") {
     const progress = document.createElement("span");
     progress.className = "toast-progress";
     progress.setAttribute("aria-hidden", "true");
-    toast.append(icon, text, progress);
+    toast.append(icon, text);
+    let actionButton = null;
+    if (options.actionText && typeof options.onAction === "function") {
+        toast.classList.add("toast-has-action");
+        actionButton = document.createElement("button");
+        actionButton.className = "toast-action";
+        actionButton.type = "button";
+        actionButton.textContent = options.actionText;
+        actionButton.setAttribute("aria-label", options.actionLabel || options.actionText);
+        toast.appendChild(actionButton);
+    }
+    toast.appendChild(progress);
     toastContainer.appendChild(toast);
 
-    let remainingTime = 3000;
+    let remainingTime = Math.max(1000, Number(options.duration) || 3000);
     let startedAt = Date.now();
     let hideTimeout;
+    let isClosed = false;
+    progress.style.animationDuration = `${remainingTime}ms`;
     function hideToast() {
+        if (isClosed) return;
+        isClosed = true;
+        window.clearTimeout(hideTimeout);
         toast.classList.add("toast-hiding");
         window.setTimeout(function () {
             toast.remove();
@@ -183,10 +205,19 @@ function showToast(message, type = "info") {
         progress.style.animationPlayState = "paused";
     });
     toast.addEventListener("mouseleave", function () {
+        if (isClosed) return;
         progress.style.animationPlayState = "running";
         startTimer();
     });
+    if (actionButton) {
+        actionButton.addEventListener("click", function () {
+            if (isClosed) return;
+            options.onAction();
+            hideToast();
+        });
+    }
     startTimer();
+    return { element: toast, close: hideToast };
 }
 
 function getConfirmModal() {
@@ -332,9 +363,7 @@ function initializeApp() {
         return;
     }
 
-    if (typeof updateAuthUI === "function") {
-        updateAuthUI();
-    } else {
+    if (typeof updateAuthUI !== "function") {
         updateCurrentUserUI();
     }
     initializeUnifiedFooter();

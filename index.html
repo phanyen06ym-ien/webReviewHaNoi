@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Hanoi Food Review - Cộng đồng chia sẻ trải nghiệm quán ăn và quán cà phê tại Hà Nội.">
     <title>Hanoi Food Review</title>
+    <link rel="icon" type="image/svg+xml" href="assets/images/logo/favicon.svg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/home.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
 <body data-page="home">
     <a class="skip-link" href="#main-content">Chuyển đến nội dung chính</a>
@@ -26,7 +27,7 @@
             <span class="brand-mark"><i class="fa-solid fa-bowl-food" aria-hidden="true"></i></span>
             <span>Hanoi Food Review</span>
         </a>
-        <a class="mobile-account" href="pages/login.html" aria-label="Đăng nhập">
+        <a class="mobile-account" href="pages/auth.html?mode=login" aria-label="Đăng nhập">
             <i class="fa-regular fa-circle-user" aria-hidden="true"></i>
         </a>
     </header>
@@ -63,9 +64,6 @@
                     <a class="nav-link" href="pages/statistics.html">
                         <i class="fa-solid fa-chart-column" aria-hidden="true"></i><span>Thống kê</span>
                     </a>
-                    <a class="nav-link" href="pages/profile.html">
-                        <i class="fa-regular fa-user" aria-hidden="true"></i><span>Hồ sơ</span>
-                    </a>
                 </nav>
 
                 <div class="sidebar-account">
@@ -76,22 +74,18 @@
                             <small id="sidebar-user-status">Chưa đăng nhập</small>
                         </span>
                     </div>
-                    <a class="button button-outline button-full" href="pages/login.html">
-                        <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
-                        Đăng nhập
-                    </a>
                 </div>
             </div>
         </aside>
 
         <main class="main-content" id="main-content">
             <section class="welcome-banner">
-                <div>
+                <div class="welcome-banner-content">
                     <span class="eyebrow"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Ăn ngon quanh Hà Nội</span>
                     <h1>Hôm nay bạn muốn khám phá gì?</h1>
-                    <p>Chia sẻ trải nghiệm chân thật và tìm thêm những góc ăn uống đáng nhớ.</p>
+                    <p>Tìm quán ăn và quán cà phê phù hợp với bạn tại Hà Nội.</p>
+                    <a class="button button-primary welcome-banner-button" href="pages/explore.html">Khám phá ngay <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
                 </div>
-                <span class="welcome-illustration" aria-hidden="true">🍜</span>
             </section>
 
             <section class="quick-post card" aria-labelledby="quick-post-title">
@@ -158,9 +152,9 @@
     </div>
 
     <div class="toast-container" id="toast-container" aria-live="polite"></div>
-    <script src="js/storage.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/posts.js"></script>
-    <script src="js/app.js"></script>
+    <script src="assets/js/storage.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/posts.js"></script>
+    <script src="assets/js/app.js"></script>
 </body>
 </html>
