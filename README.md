@@ -1,140 +1,100 @@
 # Hanoi Food Review
 
-> Release **v1.0.0** — 29/07/2026
-
-Ứng dụng web front-end giúp sinh viên khám phá, đánh giá và lưu lại các quán ăn, quán cà phê tại Hà Nội. Dự án được xây dựng cho môn Cơ sở lập trình Web và chạy hoàn toàn trên trình duyệt, không cần backend.
-
-## Mục tiêu
-
-- Thực hành HTML semantic, CSS responsive và JavaScript thuần.
-- Xây dựng CRUD hoàn chỉnh với LocalStorage.
-- Áp dụng validation, authentication giả lập, tìm kiếm, lọc và trực quan hóa dữ liệu.
-- Đảm bảo giao diện dễ sử dụng trên desktop, tablet và mobile.
-
-## Tính năng
-
-- Đăng ký, đăng nhập, đăng xuất và chỉnh sửa hồ sơ.
-- Tạo, xem, sửa, xóa, thích và lưu bài review.
-- Tìm kiếm không phân biệt dấu, lọc kết hợp và sắp xếp bài viết.
-- Quản lý kế hoạch đi quán: CRUD, hoàn thành, tìm kiếm, lọc và sắp xếp.
-- Thống kê bài viết, rating, quận, tháng và trạng thái task bằng Chart.js.
-- Xuất, nhập, sao lưu và khôi phục dữ liệu JSON.
-- Responsive, keyboard navigation, toast, confirm modal và fallback ảnh.
+Ứng dụng web front-end giúp sinh viên khám phá, đánh giá và lưu lại các quán ăn, quán cà phê tại Hà Nội. Project được xây dựng cho môn **Cơ sở Lập trình Web**, chạy hoàn toàn trong trình duyệt và không cần backend.
 
 ## Công nghệ
 
 - HTML5 semantic
-- CSS3, Grid, Flexbox, custom properties
-- JavaScript ES6+
-- LocalStorage
-- Chart.js
-- Font Awesome và Google Fonts
+- CSS3: Variables, Flexbox, Grid, Media Query
+- JavaScript ES6+ và DOM API
+- LocalStorage và JSON
+- Chart.js, Font Awesome và Google Fonts qua CDN
 
-## Cấu trúc thư mục
+## Tính năng
+
+- Đăng ký, đăng nhập, đăng xuất và cập nhật hồ sơ.
+- Tạo, xem, sửa, xóa, Like, Save và bình luận bài review.
+- Tìm kiếm tiếng Việt không dấu, suggestion, lọc kết hợp và sắp xếp.
+- CRUD kế hoạch đi quán, deadline, priority, status, Undo và bộ lọc.
+- Thống kê review/Task bằng Chart.js.
+- Xuất dữ liệu toàn hệ thống hoặc riêng Task thành JSON.
+- Responsive desktop/tablet/mobile, keyboard navigation, toast, confirm và fallback ảnh.
+
+## Cấu trúc chính
 
 ```text
-webReviewHaNoi/
-├── assets/
-│   ├── css/
-│   │   ├── variables.css
-│   │   ├── style.css
-│   │   ├── responsive.css
-│   │   └── *.css
-│   ├── js/
-│   │   ├── storage.js
-│   │   ├── validation.js
-│   │   ├── tasks.js
-│   │   ├── posts.js
-│   │   ├── auth.js
-│   │   └── *.js
-│   ├── icons/
-│   └── images/
-│       ├── avatars/
-│       ├── banners/
-│       ├── logo/
-│       ├── posts/
-├── pages/
-│   ├── tasks.html
-│   ├── statistics.html
-│   └── *.html
 ├── index.html
-├── BAO_CAO_BAO_VE.md
-├── TEST_CASE.md
-├── CHANGELOG.md
-└── LICENSE
+├── pages/                  # Các trang chức năng
+├── assets/
+│   ├── css/                # CSS chung và theo module
+│   ├── js/                 # JavaScript theo module
+│   ├── images/             # Hình ảnh runtime
+│   └── report/             # Ảnh minh họa báo cáo
+├── docs/                   # Bộ tài liệu báo cáo/bảo vệ
+├── PROJECT_STRUCTURE.md
+├── HTML_REVIEW.md
+├── CSS_STRUCTURE.md
+├── JS_STRUCTURE.md
+├── SYSTEM_FLOW.md
+├── LOCAL_STORAGE.md
+├── CRUD_FLOW.md
+├── FEATURE_LIST.md
+├── IMPROVEMENT_REPORT.md
+└── VIVA_QUESTION.md
 ```
 
-`assets/css/style.css` đóng vai trò base, component và layout dùng chung; các file CSS còn lại chỉ chứa giao diện đặc thù từng trang. `assets/js/storage.js` phụ trách LocalStorage, `validation.js` phụ trách kiểm tra dữ liệu, còn các file như `tasks.js`, `posts.js`, `auth.js` tách logic theo từng module chức năng.
+Chi tiết từng file xem [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md).
 
-Xem [BAO_CAO_BAO_VE.md](BAO_CAO_BAO_VE.md) để đối chiếu yêu cầu của giảng viên, luồng xử lý CRUD và kịch bản demo 3 phút.
+## Cài đặt và chạy
 
-## Hướng dẫn chạy
-
-1. Clone project:
-
-   ```bash
-   git clone <repository-url>
-   ```
-
-2. Mở thư mục project bằng Visual Studio Code.
+1. Clone hoặc tải project về máy.
+2. Mở thư mục bằng Visual Studio Code.
 3. Cài extension **Live Server**.
-4. Nhấp phải `index.html`, chọn **Open with Live Server**.
-5. Truy cập địa chỉ Live Server hiển thị, thường là `http://127.0.0.1:5500`.
+4. Nhấp phải `index.html` → **Open with Live Server**.
+5. Truy cập URL Live Server cung cấp, thường là `http://127.0.0.1:5500`.
 
-Không cần cài package, database hoặc backend. Không nên mở trực tiếp bằng `file://` vì một số trình duyệt hạn chế tài nguyên cục bộ.
+Không cần `npm install`, database hoặc backend. Nên chạy qua HTTP thay vì mở trực tiếp bằng `file://`.
 
 ## Tài khoản demo
 
-| Vai trò | Username  | Password |
-| ------- | --------- | -------- |
-| Admin   | `admin`   | `123456` |
-| Student | `student` | `123456` |
-
-Có thể đăng nhập bằng username hoặc email tương ứng.
+| Vai trò | Username | Email | Password |
+|---|---|---|---|
+| Admin | `admin` | `admin@hanoifood.vn` | `123456` |
+| Student | `student` | `student@hanoifood.vn` | `123456` |
 
 ## LocalStorage
 
-| Key                       | Nội dung                             |
-| ------------------------- | ------------------------------------ |
-| `hanoi_food_users`        | Danh sách người dùng                 |
-| `hanoi_food_current_user` | Phiên đăng nhập, không chứa password |
-| `hanoi_food_posts`        | Bài review                           |
-| `hanoi_food_tasks`        | Kế hoạch đi quán                     |
-| `hanoi_food_saved_posts`  | ID bài đã lưu                        |
-| `hanoi_food_theme`        | Thiết lập giao diện                  |
+Dữ liệu gồm User, Current User, Post, Comment, Task, Saved Post ID và Theme. Schema chính xác xem [LOCAL_STORAGE.md](LOCAL_STORAGE.md). Dữ liệu chỉ thuộc origin/browser hiện tại và không phù hợp production.
 
-Dữ liệu mẫu chỉ được seed khi key chưa tồn tại. Clear All ghi mảng rỗng thay vì xóa key để dữ liệu mẫu không tự xuất hiện lại.
+## Kiểm thử
 
-## Responsive
+- Acceptance case: [TEST_CASE.md](TEST_CASE.md)
+- Tổng quan kiểm thử thủ công: [docs/08_Testing.md](docs/08_Testing.md)
 
-Giao diện được thiết kế cho các mốc kiểm thử 320, 375, 390, 414, 768, 992, 1200 và 1440px. Sidebar chuyển thành menu mobile, biểu đồ giữ tỷ lệ và nội dung dài được giới hạn để tránh overflow ngang.
+## Tài liệu báo cáo và bảo vệ
 
-## Screenshots
+Bắt đầu tại [`docs/01_Project_Overview.md`](docs/01_Project_Overview.md), sau đó đọc lần lượt 10 chương. Bộ câu hỏi vấn đáp nằm tại [VIVA_QUESTION.md](VIVA_QUESTION.md). Những điểm chưa chuẩn nhưng chưa được phép sửa nằm tại [IMPROVEMENT_REPORT.md](IMPROVEMENT_REPORT.md).
 
-Các placeholder dưới đây có thể được thay bằng ảnh chụp trước khi thuyết trình:
+## Screenshot
 
-- Trang chủ: `docs/screenshots/home.png`
-- Explore: `docs/screenshots/explore.png`
-- Review Detail: `docs/screenshots/review-detail.png`
-- Task: `docs/screenshots/tasks.png`
-- Profile: `docs/screenshots/profile.png`
-- Statistics: `docs/screenshots/statistics.png`
+- [Desktop](assets/report/desktop-home.png)
+- [Tablet](assets/report/tablet-home.png)
+- [Mobile](assets/report/mobile-home.png)
+- [Responsive preview](assets/report/responsive-preview.png)
 
 ## Thành viên
 
-- Sinh viên: Phan Hai Yen
-  Nguyen Dac Manh
-  Tran Thach Thiet
-  Nguyen Van Thien
-- Môn học: Cơ sở lập trình Web
+- Phan Hải Yến
+- Nguyễn Đắc Mạnh
+- Trần Thạch Thiết
+- Nguyễn Văn Thiên
 
-## Known issues
+## Giới hạn
 
-- Không có backend; dữ liệu chỉ tồn tại trong trình duyệt hiện tại.
-- Password được lưu dạng rõ trong LocalStorage để phục vụ bài tập, không phù hợp production.
-- Ảnh tải từ máy được tối ưu và lưu dạng dữ liệu cục bộ nên vẫn chịu giới hạn dung lượng LocalStorage của trình duyệt.
-- Chart.js, Font Awesome và Google Fonts cần kết nối mạng; UI có fallback khi Chart.js không tải.
-- Import/export có thể chứa dữ liệu demo và không thay thế cơ chế backup production.
+- Authentication chỉ là mô phỏng phía client; password nằm trong LocalStorage để phục vụ bài tập.
+- Chart.js, Font Awesome và Google Fonts cần mạng.
+- Ảnh upload dạng dữ liệu cục bộ chịu giới hạn dung lượng LocalStorage.
+- Source hiện có chức năng **export JSON**; chưa có luồng import JSON hoàn chỉnh trong JavaScript runtime.
 
 ## Giấy phép
 

@@ -23,6 +23,13 @@
 }
 
 @media (max-width: 768px) {
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
     body.menu-open .mobile-account {
         visibility: hidden;
     }
@@ -71,7 +78,10 @@
     .page-layout {
         display: block;
         width: 100%;
+        max-width: 100%;
+        min-width: 0;
         padding: 0 14px;
+        overflow-x: clip;
     }
 
     .left-sidebar {
@@ -122,8 +132,19 @@
     }
 
     .main-content {
+        width: 100%;
         max-width: 680px;
+        min-width: 0;
         padding: 18px 0 32px;
+    }
+
+    .main-content > *,
+    .welcome-banner,
+    .quick-post,
+    .post-list,
+    .post-card {
+        max-width: 100%;
+        min-width: 0;
     }
 
     .welcome-banner {
@@ -166,20 +187,32 @@
         padding: 15px;
     }
 
+    .quick-post-row,
     .quick-post-input {
+        min-width: 0;
+    }
+
+    .quick-post-input {
+        overflow: hidden;
         padding: 0 13px;
         font-size: 13px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .quick-post-actions {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
+        min-width: 0;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .quick-post-actions > a:not(.button) {
+        min-width: 0;
         justify-content: center;
         padding: 7px 4px;
         font-size: 12px;
+        text-align: center;
     }
 
     .quick-post-actions .button {
@@ -264,5 +297,13 @@
 
     .welcome-banner p {
         max-width: 235px;
+    }
+
+    .quick-post-actions > a:not(.button) {
+        flex-direction: column;
+        gap: 2px;
+        padding-inline: 2px;
+        font-size: 11px;
+        line-height: 1.25;
     }
 }
